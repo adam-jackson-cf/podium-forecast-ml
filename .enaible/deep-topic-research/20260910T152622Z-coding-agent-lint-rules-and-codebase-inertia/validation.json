@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "2.0",
+  "validatedAt": "2026-09-10T15:47:15.002277Z",
+  "status": "pass",
+  "questions": [
+    {
+      "questionId": "q1",
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "questionId": "q2",
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "questionId": "q3",
+      "issues": [],
+      "warnings": [
+        "Source src-010 older than preferred (15 months > 12)."
+      ]
+    },
+    {
+      "questionId": "q4",
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "questionId": "q5",
+      "issues": [],
+      "warnings": [
+        "Source src-008 older than preferred (19 months > 12).",
+        "Source src-009 older than preferred (15 months > 12)."
+      ]
+    },
+    {
+      "questionId": "q6",
+      "issues": [],
+      "warnings": [
+        "Source src-004 older than preferred (14 months > 12)."
+      ]
+    }
+  ]
+}

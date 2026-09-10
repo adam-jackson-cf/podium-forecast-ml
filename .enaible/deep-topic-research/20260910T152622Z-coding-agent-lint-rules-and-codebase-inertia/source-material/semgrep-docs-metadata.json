@@ -1,0 +1,10 @@
+{
+  "repo": "semgrep/semgrep-docs",
+  "sha": "e29c6d6a26b1ef5e96b9fb7985b98fee393e6edb",
+  "date": "2026-09-09",
+  "paths": [
+    "docs/kb/semgrep-code/finding_all_taints.mdx",
+    "docs/writing-rules/data-flow/taint-mode/advanced.mdx",
+    "docs/writing-rules/data-flow/taint-mode/overview.mdx"
+  ]
+}

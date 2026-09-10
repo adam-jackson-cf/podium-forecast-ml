@@ -6,6 +6,7 @@ for tool in uv terraform tflint trivy actionlint shellcheck hadolint gitleaks; d
   command -v "$tool" >/dev/null || { printf 'Required tool missing: %s\n' "$tool" >&2; exit 1; }
 done
 uv sync --frozen
+scripts/check-contracts.sh
 uv run --frozen python -m verification
 uv run --frozen ruff check .
 uv run --frozen ruff format --check .

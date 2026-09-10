@@ -13,5 +13,6 @@ description: "Use when changing Terraform, containers, shell, or CI to preserve 
 - Keep Terraform state separate by environment. Terraform plans and local emulation do not establish cloud IAM, networking or runtime correctness.
 - Preserve versioned datasets and release manifests across runtimes. Local resource IDs and approval state are not portable production authority.
 - Keep CI permissions explicit and narrow. Preserve blocking gates and dependency locks; do not add network-dependent tests to the fast layer.
+- Evaluate rendered Compose configuration across every profile through the repository's fixed external-check entrypoint. Missing inputs, malformed output and unsafe optional services must fail the gate.
 - Validate changed Terraform, Compose, Dockerfiles, shell and workflow definitions using the repository's corresponding gates.
 - New executable languages require a matching formatter, lint/static checks and relevant behavioural coverage before their code is introduced.

@@ -8,7 +8,7 @@ Context: read root and scoped agent instructions, Python conventions, relevant e
 
 Authority: edit only the assigned scope; accommodate concurrent changes. Do not deploy, publish, weaken checks, invent missing product rules or introduce production test doubles.
 
-Evidence: distinguish requirements from assumptions; use the canonical quality configuration. Run affected fast checks and the slow seam only when the changed integration requires it or it is requested.
+Evidence: distinguish requirements from assumptions; use the canonical quality configuration. Validate untyped ingress before core use, propagate failed operations beyond logging, and retain explicit lifecycle ownership for asynchronous tasks. Treat known-effect and package-cycle results within their documented static-analysis limits. Run affected fast checks and the slow seam only when the changed integration requires it or it is requested.
 
 Stop condition: a missing target, forecast cut-off, schema or acceptance rule blocks dependent domain behaviour. Finish independent permitted work and identify the exact decision needed.
 

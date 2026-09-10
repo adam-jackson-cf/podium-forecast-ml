@@ -1,0 +1,32 @@
+[
+  {
+    "questionId": "q2",
+    "url": "https://github.com/osprey-oss/deptry/blob/8957d25022a0b176388e089481b248a35cb1c1f3/docs/rules-violations.md",
+    "title": "Deptry dependency rules",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-06",
+    "origin": "engagement",
+    "publisher": "osprey-oss/deptry",
+    "notes": "Immutable documentation snapshot at commit 8957d25022a0b176388e089481b248a35cb1c1f3; date is snapshot commit publication, not first authorship or retrieval. Full document fetched; SHA256 291c4b240b24a16ccf56a623d62d663322f2cb468076f72cab5c9acb84949526. Live rendered counterpart also read."
+  },
+  {
+    "questionId": "q4",
+    "url": "https://github.com/zizmorcore/zizmor/blob/a7112ad562bafa07e9a2ca7504dd04fdbb3174e3/docs/audits.md",
+    "title": "Zizmor CI audit rules",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "zizmorcore/zizmor",
+    "notes": "Immutable documentation snapshot at commit a7112ad562bafa07e9a2ca7504dd04fdbb3174e3; date is snapshot commit publication, not first authorship or retrieval. Full document fetched; SHA256 5e6b8dce32011ed42ce4f59bcdca063ec53f6bbd76963b5a070303110d427db2. Live rendered counterpart also read."
+  },
+  {
+    "questionId": "q4",
+    "url": "https://github.com/zizmorcore/zizmor/blob/a7112ad562bafa07e9a2ca7504dd04fdbb3174e3/docs/integrations.md",
+    "title": "Zizmor integration and failing-exit semantics",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "zizmorcore/zizmor",
+    "notes": "Immutable documentation snapshot at commit a7112ad562bafa07e9a2ca7504dd04fdbb3174e3; date is snapshot commit publication, not first authorship or retrieval. Full document fetched; SHA256 1c78ff13bc24fa91033260365379ebfef65046fa9f94283b3d56e92251731ac3. Live rendered counterpart also read."
+  }
+]

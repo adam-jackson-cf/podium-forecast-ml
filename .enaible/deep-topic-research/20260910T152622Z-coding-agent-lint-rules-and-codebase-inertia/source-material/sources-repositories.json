@@ -1,0 +1,202 @@
+[
+  {
+    "questionId": "q2",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/flake8_blind_except/rules/blind_except.rs",
+    "title": "Ruff BLE001 implementation and rule documentation",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 0.15.8; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q3",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_without_tzinfo.rs",
+    "title": "Ruff DTZ001 timezone-aware datetime rule",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 0.15.8; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q2",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/flake8_tidy_imports/rules/banned_api.rs",
+    "title": "Ruff TID251 configurable banned APIs",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 0.15.8; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q2",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/flake8_pytest_style/rules/raises.rs",
+    "title": "Ruff PT011 and PT012 exception-test rules",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 0.15.8; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q3",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/pandas_vet/rules/inplace_argument.rs",
+    "title": "Ruff PD002 dataframe in-place mutation rule",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 0.15.8; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q6",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/tryceratops/rules/raise_vanilla_args.rs",
+    "title": "Ruff TRY003 exception-message design rule",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 0.15.8; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q6",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/pandas_vet/rules/assignment_to_df.rs",
+    "title": "Ruff removed PD901 naming rule",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 0.15.8; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q6",
+    "url": "https://github.com/astral-sh/ruff/blob/18cdbb4f3d14058794420e758864795f55336334/docs/rule-proposals.md",
+    "title": "Ruff criteria for proposing new lint rules",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-10",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable code/document snapshot at 18cdbb4f3d14058794420e758864795f55336334; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q2",
+    "url": "https://github.com/python/mypy/blob/v1.19.1/docs/source/error_code_list2.rst",
+    "title": "Mypy optional error codes",
+    "sourceType": "official-docs",
+    "publishedDate": "2025-12-15",
+    "origin": "engagement",
+    "publisher": "python/mypy",
+    "notes": "Immutable code/document snapshot at v1.19.1; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q2",
+    "url": "https://github.com/seddonym/import-linter/blob/31927f1457e3df673912cb5efb0afa6dbc37585f/docs/contract_types/acyclic_siblings.md",
+    "title": "Import Linter acyclic sibling contracts",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-04",
+    "origin": "engagement",
+    "publisher": "seddonym/import-linter",
+    "notes": "Immutable code/document snapshot at 31927f1457e3df673912cb5efb0afa6dbc37585f; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q5",
+    "url": "https://github.com/sverweij/dependency-cruiser/blob/2aa2e34ed8ff8a074588e21603c4fafc0edf6170/doc/rules-reference.md",
+    "title": "Dependency-cruiser circularity, reachability and instability rules",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "sverweij/dependency-cruiser",
+    "notes": "Immutable code/document snapshot at 2aa2e34ed8ff8a074588e21603c4fafc0edf6170; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q6",
+    "url": "https://github.com/jendrikseipp/vulture/blob/2c21cb0ae2afa657e36f6a397cb573608a65d79e/README.md",
+    "title": "Vulture unused-code checks and confidence limits",
+    "sourceType": "repository",
+    "publishedDate": "2026-04-30",
+    "origin": "engagement",
+    "publisher": "jendrikseipp/vulture",
+    "notes": "Immutable code/document snapshot at 2c21cb0ae2afa657e36f6a397cb573608a65d79e; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q5",
+    "url": "https://github.com/wemake-services/wemake-python-styleguide/blob/6e0b6b4c33c409a197d651f0dcfeced6798479c0/wemake_python_styleguide/violations/complexity.py",
+    "title": "Wemake Python styleguide design complexity rules",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-10",
+    "origin": "engagement",
+    "publisher": "wemake-services/wemake-python-styleguide",
+    "notes": "Immutable code/document snapshot at 6e0b6b4c33c409a197d651f0dcfeced6798479c0; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q1",
+    "url": "https://github.com/kucherenko/jscpd/blob/0f8785f42332af310b7712e2d772f78fe6944758/README.md",
+    "title": "jscpd duplicate-code detection",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-10",
+    "origin": "engagement",
+    "publisher": "kucherenko/jscpd",
+    "notes": "Immutable code/document snapshot at 0f8785f42332af310b7712e2d772f78fe6944758; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q4",
+    "url": "https://github.com/open-policy-agent/conftest/blob/fc7d7d7df851eae01067ac9a7064774722a5fb4c/docs/index.md",
+    "title": "Conftest structured configuration policy tests",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-08",
+    "origin": "engagement",
+    "publisher": "open-policy-agent/conftest",
+    "notes": "Immutable code/document snapshot at fc7d7d7df851eae01067ac9a7064774722a5fb4c; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q3",
+    "url": "https://github.com/unionai-oss/pandera/blob/8ecdd0df0eb48bf3c53dc0be56e22647101fd516/README.md",
+    "title": "Pandera dataset validation framework",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "unionai-oss/pandera",
+    "notes": "Immutable code/document snapshot at 8ecdd0df0eb48bf3c53dc0be56e22647101fd516; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q3",
+    "url": "https://github.com/HypothesisWorks/hypothesis/blob/cd434f23be1a3598085cf096e28e6738c63b29b3/README.md",
+    "title": "Hypothesis property-based testing",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-08",
+    "origin": "engagement",
+    "publisher": "HypothesisWorks/hypothesis",
+    "notes": "Immutable code/document snapshot at cd434f23be1a3598085cf096e28e6738c63b29b3; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q4",
+    "url": "https://github.com/sbdchd/squawk/blob/0feae0d2ea3407c18f984623a23adff5103e996c/README.md",
+    "title": "Squawk PostgreSQL migration linter",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-10",
+    "origin": "engagement",
+    "publisher": "sbdchd/squawk",
+    "notes": "Immutable code/document snapshot at 0feae0d2ea3407c18f984623a23adff5103e996c; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q5",
+    "url": "https://github.com/typescript-eslint/typescript-eslint/blob/cd2e3d796b5e18cdaa4ea10fec0b87caaa8db026/packages/eslint-plugin/docs/rules/no-extraneous-class.mdx",
+    "title": "TypeScript ESLint no-extraneous-class rule",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "typescript-eslint/typescript-eslint",
+    "notes": "Immutable code/document snapshot at cd2e3d796b5e18cdaa4ea10fec0b87caaa8db026; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  },
+  {
+    "questionId": "q5",
+    "url": "https://github.com/typescript-eslint/typescript-eslint/blob/cd2e3d796b5e18cdaa4ea10fec0b87caaa8db026/packages/eslint-plugin/docs/rules/no-floating-promises.mdx",
+    "title": "TypeScript ESLint no-floating-promises rule",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "typescript-eslint/typescript-eslint",
+    "notes": "Immutable code/document snapshot at cd2e3d796b5e18cdaa4ea10fec0b87caaa8db026; date is commit or release publication, not retrieval date and not original rule-introduction date. Retrieved full file and SHA256 verified in document snapshot metadata. Baseline applicability must be checked separately when snapshot is newer than installed tools."
+  }
+]

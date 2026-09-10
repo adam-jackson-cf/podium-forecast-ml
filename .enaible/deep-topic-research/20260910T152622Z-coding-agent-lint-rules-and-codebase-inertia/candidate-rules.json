@@ -1,0 +1,471 @@
+{
+  "schemaVersion": "2.0",
+  "status": "research recommendations only",
+  "baselineCommit": "54b2c886a2625d9c2247b9ab7c55178e236303e6",
+  "candidates": [
+    {
+      "id": "C01",
+      "name": "Precise exception handling and failure propagation",
+      "kind": "Existing tool plus bespoke control-flow rule",
+      "phase": "Next increment",
+      "priority": "high",
+      "rules": "Ruff BLE001; proposed no-success-after-failure rule",
+      "gap": "BLE and TRY are not selected. B904 already covers exception chaining; it does not prevent swallowed failures.",
+      "enforcement": "Enable BLE001; separately reject a failed job path that logs an exception then returns an ordinary success value. Preserve explicit failure outcomes or re-raise.",
+      "example": "Reject `except Exception: return 0`; also inspect `logging.exception(...); return 0`, which BLE001 permits.",
+      "oracle": "An expected failure remains a failure through the job boundary; successful and deliberate recovery paths still work.",
+      "risk": "Legitimate top-level cleanup/recovery exists. BLE001 alone is insufficient: its logging exemption passed the isolated probe.",
+      "cost": "Low for BLE001; medium for scoped control-flow analysis.",
+      "evidence": [
+        "src-012",
+        "src-002",
+        "src-040"
+      ],
+      "status": "Pinned Ruff differential probe confirms additional coverage and its limit."
+    },
+    {
+      "id": "C02",
+      "name": "Timezone-aware forecast instants",
+      "kind": "Existing tool",
+      "phase": "Next increment",
+      "priority": "high",
+      "rules": "Ruff DTZ001\u2013DTZ007, DTZ011\u2013DTZ012 as applicable",
+      "gap": "DTZ is absent. Forecast cut-offs require unambiguous instants, not implicit machine-local time.",
+      "enforcement": "Select the supported DTZ rules for code handling instants; define explicit conversion at ingestion boundaries.",
+      "example": "Reject `datetime.now()` for a forecast instant; require an explicit timezone such as UTC.",
+      "oracle": "Naive construction fails lint; aware instants pass; time-zone boundary tests preserve the same instant.",
+      "risk": "Calendar dates and local wall-clock business values can be valid. Distinguish their types rather than misclassifying every date as an instant.",
+      "cost": "Low static cost; temporal semantics still need tests.",
+      "evidence": [
+        "src-013",
+        "src-010",
+        "src-040"
+      ],
+      "status": "Pinned Ruff probe flagged the naive clock that current configuration accepts."
+    },
+    {
+      "id": "C03",
+      "name": "Effect ownership and canonical API access",
+      "kind": "Existing tool plus bespoke boundary rule",
+      "phase": "Next increment",
+      "priority": "high",
+      "rules": "Ruff TID251 configured bans; proposed EFFECT_OWNER contract",
+      "gap": "Current architecture permits all standard-library imports in pure layers, including network/process/file APIs. Layer direction alone is not effect isolation.",
+      "enforcement": "Restrict known IO APIs and client construction to owned adapters/entrypoints; use symbol-aware matching. State which dynamic imports are allowed.",
+      "example": "A domain import of `urllib.request.urlopen` passes the current layer check; a configured TID251 rule rejects it with an adapter-directed message.",
+      "oracle": "Known IO calls in domain/application fail; the same approved capability in its adapter passes; aliases are covered.",
+      "risk": "Pure path manipulation is not file IO. Do not ban all pathlib use or claim syntactic matching detects every dynamic effect.",
+      "cost": "Low for explicit APIs; medium for typed/call-aware ownership checks.",
+      "evidence": [
+        "src-014",
+        "src-035",
+        "src-040"
+      ],
+      "status": "Confirmed by a static differential fixture; no network call was executed."
+    },
+    {
+      "id": "C04",
+      "name": "No unchecked Any crossing a typed boundary",
+      "kind": "Existing type checker plus runtime validation",
+      "phase": "Next increment",
+      "priority": "high",
+      "rules": "Mypy disallow_any_explicit/disallow_any_unimported; scoped disallow_any_expr; validated decoders",
+      "gap": "Mypy strict is not a ban on every Any expression. JSON-derived values can flow into an annotated variable without runtime validation.",
+      "enforcement": "Validate external payloads in adapters, expose narrow typed ports, and apply stronger Any checks in owned core code. Treat cast as an assertion, not parsing.",
+      "example": "Current mypy accepts `payload=json.loads(text); runner_id: int=payload['runner_id']`; scoped disallow_any_expr rejects the unchecked flow.",
+      "oracle": "Wrong input shapes are rejected at the boundary; valid decoded objects enter the core without Any; typed SDK paths remain usable.",
+      "risk": "Blanket Any-expression bans across dynamic third-party libraries can create casts or wrapper sprawl. Calibrate scope before making a blocking rule.",
+      "cost": "Low-to-medium incremental type-check cost; runtime validation per boundary.",
+      "evidence": [
+        "src-020",
+        "src-008",
+        "src-040"
+      ],
+      "status": "Pinned mypy 1.19.1 differential probe confirms the gap."
+    },
+    {
+      "id": "C05",
+      "name": "Whole-package cycles and protected interfaces",
+      "kind": "Existing tool",
+      "phase": "Next increment",
+      "priority": "high",
+      "rules": "Import Linter acyclic_siblings; protected/independence contracts where justified",
+      "gap": "Per-file allowed-layer checks do not detect cycles within an allowed layer or package-level feedback loops.",
+      "enforcement": "Add a whole-package cycle contract at the existing package root; preserve current dependency direction. Add explicit internal APIs rather than duplicating existing layer checks.",
+      "example": "Two domain modules can mutually import while both satisfy the current allowed-layer map.",
+      "oracle": "A same-layer cycle fails and its acyclic counterpart passes; diagnostics show the edge/cycle path.",
+      "risk": "Do not install permissive generic layer defaults, missing optional layers or ignore_imports to make the result green. Dynamic imports need a separate policy.",
+      "cost": "Whole-package graph construction; benchmark once the codebase grows.",
+      "evidence": [
+        "src-021",
+        "src-022",
+        "src-035",
+        "src-040"
+      ],
+      "status": "Import Linter 2.15 failed the synthetic cycle and passed the repaired graph."
+    },
+    {
+      "id": "C06",
+      "name": "Dependency declaration and runtime/dev separation",
+      "kind": "Existing tool",
+      "phase": "First production package",
+      "priority": "high",
+      "rules": "Deptry DEP001\u2013DEP004",
+      "gap": "The foundation deliberately installs tooling/runtime services in a dev environment. A future production package must not rely on transitively installed or dev-only libraries.",
+      "enforcement": "Check direct, missing, unused and misplaced dependencies in production source; verify the production artifact without development dependencies.",
+      "example": "Importing a library only because MLflow happens to install it should fail the production dependency contract.",
+      "oracle": "A package with only its declared runtime dependencies can execute its owned journey; removing a required direct dependency is detected.",
+      "risk": "CLI-only dev tools are not unused runtime dependencies. Dynamic plugins and namespace packages require an explicit discovery contract.",
+      "cost": "Low-to-medium source/environment inspection.",
+      "evidence": [
+        "src-032",
+        "src-023",
+        "src-040"
+      ],
+      "status": "Maintained tool documented; no full-repository Deptry run or production packaging claim made."
+    },
+    {
+      "id": "C07",
+      "name": "Exception tests that cannot pass at the wrong statement",
+      "kind": "Existing tool",
+      "phase": "Next increment",
+      "priority": "high",
+      "rules": "Ruff PT011 and PT012",
+      "gap": "Pytest bypass checks exist, but PT rules are not selected. A broad raises block can succeed because setup failed rather than the intended operation.",
+      "enforcement": "Require a specific exception expectation and a single raising operation in the context; assert useful failure meaning without exact incidental message snapshots.",
+      "example": "Move fixture setup outside `pytest.raises`; make the contract operation the only statement expected to raise.",
+      "oracle": "Wrong failure reasons and setup failures do not satisfy the scenario; the intended rejected behaviour does.",
+      "risk": "Iterator/context-manager edge cases exist. Preserve behaviour-focused scenarios instead of one test per assertion.",
+      "cost": "Low.",
+      "evidence": [
+        "src-015",
+        "src-028",
+        "src-040"
+      ],
+      "status": "Supported stable rules verified in the installed Ruff catalog."
+    },
+    {
+      "id": "C08",
+      "name": "Structured, stable job diagnostics",
+      "kind": "Existing tool plus bespoke record-schema checks",
+      "phase": "First real ML job",
+      "priority": "medium",
+      "rules": "Ruff G004; proposed structured-event schema",
+      "gap": "T20 already rejects print, but no rule establishes structured job/run/dataset/model context or consistent failure events.",
+      "enforcement": "Use one event schema and owned logger adapter; validate required correlation fields and error status. G004 catches eager interpolated logging, not the schema itself.",
+      "example": "Use a stable event name and structured identifiers instead of embedding the entire job context in an f-string.",
+      "oracle": "A failed job emits a valid failure record with traceable identifiers, without exposing secret values.",
+      "risk": "A logger call is not evidence that a failure propagated; avoid assuming G004 enforces structured logging or secret redaction.",
+      "cost": "Low static check plus focused record validation.",
+      "evidence": [
+        "src-037",
+        "src-001",
+        "src-040"
+      ],
+      "status": "Capability documented; project-specific event contract remains to be designed."
+    },
+    {
+      "id": "C09",
+      "name": "Unused definitions and unreachable subgraphs",
+      "kind": "Existing tool plus graph concept",
+      "phase": "Advisory trial after first feature",
+      "priority": "medium",
+      "rules": "Vulture; declared-root graph reachability",
+      "gap": "F401/F841 and ARG cover imports/locals/arguments, but not every abandoned public function, plugin or disconnected feature subtree.",
+      "enforcement": "Combine declared entrypoints with whole-source reachability and review Vulture findings; delete only after real usage paths are accounted for.",
+      "example": "A never-referenced feature module with internal imports can escape a simple orphan test; root reachability can expose it.",
+      "oracle": "Registered entrypoints/plugins remain admitted; an intentionally unreferenced fixture is found.",
+      "risk": "Vulture's lower-confidence labels are heuristics, not calibrated probabilities. High-confidence results overlap existing gates; public-definition findings need review.",
+      "cost": "Low-to-medium; whole-source graph needed for disconnected files.",
+      "evidence": [
+        "src-023",
+        "src-022",
+        "src-040"
+      ],
+      "status": "Do not enable blanket deletion or convert every finding to a blocking gate."
+    },
+    {
+      "id": "C10",
+      "name": "Duplicate logic and semantic contract drift",
+      "kind": "Existing detector plus bespoke contract comparison",
+      "phase": "Advisory trial after first feature",
+      "priority": "medium",
+      "rules": "jscpd clone detection; proposed canonical-contract comparison",
+      "gap": "No clone detector or canonical schema/value drift check exists; copied feature or publication logic can diverge while each copy passes lint.",
+      "enforcement": "Use clone reports to locate candidates, then test shared invariants or generate repeated schemas from one source.",
+      "example": "Two copies of odds conversion or feature-order definitions evolve separately; centralize their contract only when they share the same responsibility.",
+      "oracle": "A deliberate divergent copy is reported; legitimate boilerplate does not force a misleading abstraction.",
+      "risk": "Similarity is not semantic identity. Avoid zero-duplication gates and aggressive auto-refactors that merge unrelated concepts.",
+      "cost": "Repository-wide token comparison; calibrate thresholds on meaningful examples.",
+      "evidence": [
+        "src-025",
+        "src-024",
+        "src-002"
+      ],
+      "status": "Active project evidence; detector not benchmarked or installed as a gate here."
+    },
+    {
+      "id": "C11",
+      "name": "Coupling and change-impact budgets",
+      "kind": "Transferable design with bespoke graph metrics",
+      "phase": "Advisory trial after first feature",
+      "priority": "medium",
+      "rules": "Dependency-cruiser moreUnstable concept; WPS module/import/member complexity concepts",
+      "gap": "Current complexity thresholds are mostly local to functions. They do not measure how many modules a change can affect.",
+      "enforcement": "Report fan-in/fan-out, strongly connected components and transitive change reach; calibrate any hard budget by component role.",
+      "example": "A small helper importing many unrelated subsystems can have low local complexity and high change impact.",
+      "oracle": "A cross-domain coupling fixture expands the reported impact set; a composition root is recognized as a different role.",
+      "risk": "Dependency instability is not a verdict of bad code. Raw import counts can be gamed by namespace imports or extra wrapper modules.",
+      "cost": "Graph-wide analysis; no fixed latency or change-effort savings claimed.",
+      "evidence": [
+        "src-022",
+        "src-024",
+        "src-019"
+      ],
+      "status": "Conceptual adaptation; no threshold is recommended as empirically optimal for agents."
+    },
+    {
+      "id": "C12",
+      "name": "Reject stateless wrapper classes without a role",
+      "kind": "Cross-language concept with bespoke AST rule",
+      "phase": "Advisory trial",
+      "priority": "medium",
+      "rules": "typescript-eslint no-extraneous-class concept",
+      "gap": "Python object-choice guidance is prose; generic-name checks do not detect unnecessary class-only namespaces.",
+      "enforcement": "Flag classes used solely as static namespaces for review; use functions/modules unless state, lifecycle, polymorphism or a data contract justifies a class.",
+      "example": "A class containing only static utility functions can add ceremony without owning behaviour or state.",
+      "oracle": "Stateless namespace wrappers are found; dataclasses, Protocols, Enums, exceptions and framework-required classes remain valid.",
+      "risk": "One public method is not automatically a smell. A universal minimum-method rule would reject legitimate domain objects.",
+      "cost": "Low AST cost, but scope requires careful semantic exclusions.",
+      "evidence": [
+        "src-030",
+        "src-024",
+        "src-040"
+      ],
+      "status": "Do not port the TypeScript implementation mechanically to Python."
+    },
+    {
+      "id": "C13",
+      "name": "Leakage and forecast-time dataset contracts",
+      "kind": "Bespoke static guard plus runtime/data checks",
+      "phase": "First dataset and training slice",
+      "priority": "high",
+      "rules": "Declared split/cut-off API; dataset availability and partition invariants",
+      "gap": "No real training dataset exists yet. Generic lint cannot know whether a feature was available at forecast time or whether all runners stay with their race.",
+      "enforcement": "Own the split/feature APIs, prohibit raw split/label access outside them, and validate availability times, complete-race partitions and untouched holdouts on real manifests.",
+      "example": "Fitting preprocessing on the combined dataset before splitting must fail an outcome check; a naive spelling-based lint can miss aliased calls.",
+      "oracle": "Temporal leakage, race overlap and repeated holdout use are rejected; an agreed valid snapshot passes.",
+      "risk": "Static leakage tools have library/notebook scope limits. Do not claim full leakage freedom from a general AST linter.",
+      "cost": "Static checks can be cheap; complete dataset invariants scale with data and belong at the appropriate pipeline boundary.",
+      "evidence": [
+        "src-005",
+        "src-010",
+        "src-036",
+        "src-040"
+      ],
+      "status": "Research tools inform design; not a turnkey CI recommendation for this script/container pipeline."
+    },
+    {
+      "id": "C14",
+      "name": "Explicit dataframe mutation boundaries",
+      "kind": "Existing tool and immutable-data design",
+      "phase": "If pandas is selected for features",
+      "priority": "medium",
+      "rules": "Ruff PD002; explicit transformation ownership",
+      "gap": "PD rules are absent. The repository has Arrow artifacts but has not selected the feature-processing API.",
+      "enforcement": "Where pandas is used, prefer explicit returned transformations; keep shared snapshots immutable by contract.",
+      "example": "Prefer an assigned transformed frame over `inplace=True` on a shared frame.",
+      "oracle": "An input snapshot is unchanged by a feature transform; the transformed output satisfies its schema.",
+      "risk": "PD002 does not detect every mutation and is not needed merely because pandas is an MLflow dependency.",
+      "cost": "Low static cost; mutation outcome checks on representative data.",
+      "evidence": [
+        "src-016",
+        "src-027",
+        "src-040"
+      ],
+      "status": "Conditional on actual pandas use, not a reason to introduce pandas."
+    },
+    {
+      "id": "C15",
+      "name": "Typed model lifecycle and exhaustive state handling",
+      "kind": "Cross-language concept plus existing type checks",
+      "phase": "First model approval/publication slice",
+      "priority": "high",
+      "rules": "Mypy exhaustive-match; protected construction of validated/approved objects",
+      "gap": "Approval and publication are not implemented. Boolean flags and generic dictionaries would allow ambiguous transitions and multiply change sites.",
+      "enforcement": "Represent lifecycle states explicitly and make publication require the approved-state contract produced by the owned approval boundary.",
+      "example": "Adding a new model state should make incomplete dispatch fail; a raw candidate should not satisfy the publication interface.",
+      "oracle": "Unapproved and failed candidates cannot publish; every declared state has explicit handling and runtime authorization remains enforced.",
+      "risk": "Types can be forged with casts and dataclass freezing is shallow. Static checks do not replace real approval authorization or persisted evidence.",
+      "cost": "Low static cost plus state-transition and authorization tests.",
+      "evidence": [
+        "src-038",
+        "src-020",
+        "src-035",
+        "src-040"
+      ],
+      "status": "Optional mypy code exists in 1.19.1; full lifecycle design is proposed, not implemented."
+    },
+    {
+      "id": "C16",
+      "name": "Semantic SQL extraction guard",
+      "kind": "Bespoke rule using an existing parser",
+      "phase": "First real extraction adapter",
+      "priority": "high",
+      "rules": "SQLGlot AST policy plus PostgreSQL read-only privileges",
+      "gap": "SQLFluff checks SQL form and selected conventions; a read-only fixture exists, but no production extraction SQL policy is implemented.",
+      "enforcement": "Parse the chosen dialect and reject disallowed statement/CTE operations; retain real read-only database roles and transaction constraints.",
+      "example": "A WITH clause containing a modifying statement must not pass merely because a query ends in SELECT.",
+      "oracle": "Disallowed write forms fail static checks and real database write attempts fail; permitted extraction remains usable.",
+      "risk": "A SELECT can call a side-effecting function. Parsing alone cannot establish privilege, function behaviour or resource safety.",
+      "cost": "Low-to-medium parsing plus the existing real-service seam extended for the owned adapter.",
+      "evidence": [
+        "src-039",
+        "src-029",
+        "src-040"
+      ],
+      "status": "Parser capability inspected; proposed application policy not coded."
+    },
+    {
+      "id": "C17",
+      "name": "GitHub Actions security invariants",
+      "kind": "Existing tool",
+      "phase": "Next increment",
+      "priority": "high",
+      "rules": "Zizmor artipacked, template-injection, excessive-permissions, dangerous-triggers, unpinned-uses",
+      "gap": "actionlint/YAML validate syntax and selected shell issues, but do not establish these security invariants.",
+      "enforcement": "Add a pinned, strict-collection security scan. Review checkout credential persistence and future workflow privilege/trigger changes.",
+      "example": "Both existing checkout steps omit `persist-credentials: false`.",
+      "oracle": "A risky workflow fixture produces a nonzero gate result; a reviewed safe fixture passes; collection errors cannot disappear.",
+      "risk": "The actual probe found two medium-severity, low-confidence artipacked findings, not proven leaks. Online audits have different capabilities and prerequisites.",
+      "cost": "Low offline scan in this small workflow set; online audits require separate setup.",
+      "evidence": [
+        "src-033",
+        "src-034",
+        "src-007",
+        "src-040"
+      ],
+      "status": "Read-only zizmor 1.30.1 probe completed; no autofix or gate change."
+    },
+    {
+      "id": "C18",
+      "name": "PostgreSQL migration lock and rewrite safety",
+      "kind": "Existing tool",
+      "phase": "Only if this repository owns schema migrations",
+      "priority": "medium",
+      "rules": "Squawk require-concurrent-index-creation, constraint-missing-not-valid, prefer-timestamptz and related rules",
+      "gap": "SQL formatting is not migration safety. The ML repository currently does not own Nexus schema changes.",
+      "enforcement": "Apply migration-aware rules in the repository that owns the DDL, with version-appropriate PostgreSQL semantics and rehearsal.",
+      "example": "Flag an index build that unnecessarily blocks writes; keep concurrent index creation outside a transaction where PostgreSQL requires it.",
+      "oracle": "Unsafe migration fixtures are rejected and the reviewed migration executes under realistic locking conditions.",
+      "risk": "Rules are not blanket bans: fresh empty tables differ from populated production tables. Do not add Nexus write authority to this project.",
+      "cost": "Low static cost; real migration rehearsal is separate.",
+      "evidence": [
+        "src-029",
+        "src-026",
+        "src-040"
+      ],
+      "status": "Deferred unless migration ownership becomes part of scope."
+    },
+    {
+      "id": "C19",
+      "name": "Rendered infrastructure policy",
+      "kind": "Existing policy engine or bespoke typed checks",
+      "phase": "Next infrastructure increment",
+      "priority": "high",
+      "rules": "Conftest/Rego or equivalent Python policy over rendered Compose and Terraform plan JSON",
+      "gap": "Current tests protect a specific storage module and static files. They do not yet enforce every future resource or resolved local service configuration.",
+      "enforcement": "Check effective settings: expected image identity, no unapproved privilege/socket mounts, allowed cloud scope, approved resource types and workload-specific permissions.",
+      "example": "A harmless-looking override must not render a privileged container or an unintended cloud target.",
+      "oracle": "Unsafe rendered fixtures fail; missing/unknown required values fail explicitly; planned environment differences pass by contract.",
+      "risk": "Rego adds a language/toolchain. A small Python policy may be simpler; do not stack overlapping scanners without an identified new invariant.",
+      "cost": "Low-to-medium policy evaluation; cloud plan generation has separate credentials/state boundaries.",
+      "evidence": [
+        "src-026",
+        "src-035",
+        "src-040"
+      ],
+      "status": "Proposed semantic layer, not a claim that present configuration is unsafe."
+    },
+    {
+      "id": "C20",
+      "name": "Handle every asynchronous result",
+      "kind": "Cross-language concept plus existing type checker",
+      "phase": "Before asynchronous work is introduced",
+      "priority": "medium",
+      "rules": "Mypy unused-awaitable; existing default unused-coroutine retained",
+      "gap": "A discarded generic Awaitable can pass current strict mypy even though ordinary unused coroutines already have checking.",
+      "enforcement": "Require awaiting, returning or explicitly owned task lifecycle management; introduce async-specific library lint only when that library is used.",
+      "example": "Calling a function returning Awaitable[int] and discarding it passes baseline but fails with unused-awaitable enabled.",
+      "oracle": "Discarded work is rejected; managed tasks demonstrate completion/cancellation/error handling.",
+      "risk": "Merely assigning or discarding into a named variable is not lifecycle ownership. TypeScript's void escape illustrates why syntactic silencing is insufficient.",
+      "cost": "Low incremental type-check cost.",
+      "evidence": [
+        "src-020",
+        "src-031",
+        "src-040"
+      ],
+      "status": "Confirmed in pinned mypy differential fixture; project currently has no async pipeline."
+    },
+    {
+      "id": "C21",
+      "name": "One source for contracts and feature order",
+      "kind": "Bespoke deterministic comparison",
+      "phase": "First pipeline contracts",
+      "priority": "high",
+      "rules": "Canonical schema/manifest generation and parity checks",
+      "gap": "Exact wording is required in guidance, but no executable parity contract yet binds dataset schema, feature order, model metadata and publication payload.",
+      "enforcement": "Generate or compare repeated representations from one owned contract, with explicit version/hash linkage.",
+      "example": "A feature-order change must invalidate an incompatible model manifest instead of silently reusing the old artifact.",
+      "oracle": "A deliberate contract mismatch is rejected; changing the canonical contract updates every dependent generated representation.",
+      "risk": "Do not infer semantic equality from similar strings or merge distinct concepts such as starting price and editorial forecast price.",
+      "cost": "Low metadata checks; integration outcomes still need the real pipeline seam.",
+      "evidence": [
+        "src-027",
+        "src-022",
+        "src-040"
+      ],
+      "status": "Proposed future invariant; field names and acceptance thresholds still need domain agreement."
+    },
+    {
+      "id": "C22",
+      "name": "Behavioural properties for gates and ML transformations",
+      "kind": "Existing test generator; complementary to lint",
+      "phase": "Gate changes and first feature slice",
+      "priority": "high",
+      "rules": "Hypothesis properties and targeted mutation-style challenges",
+      "gap": "Example-based verifier tests are valuable, but coverage alone cannot prove resistance to aliases, nesting variants, false success or ML leakage.",
+      "enforcement": "Generate valid/invalid structures and data partitions; test invariant preservation rather than exact source text or one discovered value.",
+      "example": "Reordering runners should not change race membership; an aliased forbidden call should remain rejected.",
+      "oracle": "Meaningfully different invalid cases fail while equivalent valid cases pass; production code is included in appropriate coverage when introduced.",
+      "risk": "Generators can mirror implementation mistakes. Keep an independent behavioural oracle and the single real-service seam.",
+      "cost": "Bounded fast property tests; expensive journey checks remain explicitly invoked.",
+      "evidence": [
+        "src-028",
+        "src-015",
+        "src-040"
+      ],
+      "status": "Complementary verification, not presented as a static lint rule."
+    },
+    {
+      "id": "C23",
+      "name": "Gate result and scanner-coverage contracts",
+      "kind": "Bespoke integration assertions",
+      "phase": "Every new checker integration",
+      "priority": "high",
+      "rules": "Failing-exit, nonempty intended scope, unknown-result and suppression-policy checks",
+      "gap": "Existing guards reject many bypasses, but adding another tool introduces new output formats, ignores, baselines and collection failure modes.",
+      "enforcement": "Test the wrapper with known findings, scanner errors and omitted inputs; map each maintained executable location to its checker.",
+      "example": "Zizmor SARIF output can accompany exit zero despite findings; use a verified blocking path instead of equating upload success with safety.",
+      "oracle": "The end-to-end gate fails on a known violation and an analysis failure; empty scope is accepted only when explicitly expected for the project phase.",
+      "risk": "Do not confuse source-type admission with actual scanner coverage or auto-ignore generated reports by broad unreviewed patterns.",
+      "cost": "Small integration tests; no need to rerun the entire slow journey for each lint edit.",
+      "evidence": [
+        "src-034",
+        "src-019",
+        "src-040"
+      ],
+      "status": "Required integration discipline; no existing gate was changed during this research."
+    }
+  ]
+}

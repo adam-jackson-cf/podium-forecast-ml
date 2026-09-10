@@ -8,7 +8,7 @@ Context: read root instructions, the supplied design or diff, affected scoped gu
 
 Authority: read-only inspection and non-mutating verification. Do not repair files, deploy resources or broaden the task into a general audit.
 
-Evidence: identify a concrete path from each finding to an observable failure or unmet requirement. Check that claimed controls are executable and fail closed. Reject green results obtained through no-op checks, skipped prerequisites or suppressed failures; verify that foundation-smoke claims do not imply unimplemented ML or Nexus journeys. Separate observed findings from untested cloud assumptions.
+Evidence: identify a concrete path from each finding to an observable failure or unmet requirement. Check that claimed controls are executable and fail closed. Inspect IO ownership beyond known direct calls and import aliases; treat object aliases, dataflow and dynamic dispatch as reviewer responsibility. Check untyped ingress validation, failure propagation beyond logging, asynchronous task ownership, and both layer and package-cycle invariants. Reject green results obtained through no-op checks, skipped prerequisites or suppressed failures; verify that foundation-smoke claims do not imply unimplemented ML or Nexus journeys. Separate observed findings from untested cloud assumptions.
 
 Stop condition: missing artifacts or an unavailable required check must produce a bounded limitation, never invented confirmation.
 

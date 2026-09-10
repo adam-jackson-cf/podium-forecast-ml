@@ -1,0 +1,522 @@
+{
+  "schemaVersion": "2.0",
+  "version": "0.15.8",
+  "collectionCommand": "uv run --frozen ruff rule --all --output-format json",
+  "catalogCount": 954,
+  "selectionPurpose": "Availability, default/preview/removed status and explanatory boundaries for researched or already-covered rules.",
+  "rules": [
+    {
+      "name": "hardcoded-password-string",
+      "code": "S105",
+      "linter": "flake8-bandit",
+      "summary": "Possible hardcoded password assigned to: \"{}\"",
+      "message_formats": [
+        "Possible hardcoded password assigned to: \"{}\""
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for potential uses of hardcoded passwords in strings.\n\n## Why is this bad?\nIncluding a hardcoded password in source code is a security risk, as an\nattacker could discover the password and use it to gain unauthorized\naccess.\n\nInstead, store passwords and other secrets in configuration files,\nenvironment variables, or other sources that are excluded from version\ncontrol.\n\n## Example\n```python\nSECRET_KEY = \"hunter2\"\n```\n\nUse instead:\n```python\nimport os\n\nSECRET_KEY = os.environ[\"SECRET_KEY\"]\n```\n\n## References\n- [Common Weakness Enumeration: CWE-259](https://cwe.mitre.org/data/definitions/259.html)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.116"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_bandit/rules/hardcoded_password_string.rs",
+        "line": 36
+      }
+    },
+    {
+      "name": "blind-except",
+      "code": "BLE001",
+      "linter": "flake8-blind-except",
+      "summary": "Do not catch blind exception: `{name}`",
+      "message_formats": [
+        "Do not catch blind exception: `{name}`"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for `except` clauses that catch all exceptions.  This includes\n`except BaseException` and `except Exception`.\n\n\n## Why is this bad?\nOverly broad `except` clauses can lead to unexpected behavior, such as\ncatching `KeyboardInterrupt` or `SystemExit` exceptions that prevent the\nuser from exiting the program.\n\nInstead of catching all exceptions, catch only those that are expected to\nbe raised in the `try` block.\n\n## Example\n```python\ntry:\n    foo()\nexcept BaseException:\n    ...\n```\n\nUse instead:\n```python\ntry:\n    foo()\nexcept FileNotFoundError:\n    ...\n```\n\nExceptions that are re-raised will _not_ be flagged, as they're expected to\nbe caught elsewhere:\n```python\ntry:\n    foo()\nexcept BaseException:\n    raise\n```\n\nExceptions that are logged with `exc_info` enabled will\n_not_ be flagged, as this is a common pattern for propagating exception\ntraces:\n```python\ntry:\n    foo()\nexcept BaseException:\n    logging.exception(\"Something went wrong\")\n```\n\n## Options\n\n- `lint.logger-objects`\n\n## References\n- [Python documentation: The `try` statement](https://docs.python.org/3/reference/compound_stmts.html#the-try-statement)\n- [Python documentation: Exception hierarchy](https://docs.python.org/3/library/exceptions.html#exception-hierarchy)\n- [PEP 8: Programming Recommendations on bare `except`](https://peps.python.org/pep-0008/#programming-recommendations)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.127"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_blind_except/rules/blind_except.rs",
+        "line": 71
+      }
+    },
+    {
+      "name": "mutable-argument-default",
+      "code": "B006",
+      "linter": "flake8-bugbear",
+      "summary": "Do not use mutable data structures for argument defaults",
+      "message_formats": [
+        "Do not use mutable data structures for argument defaults"
+      ],
+      "fix": "Fix is sometimes available.",
+      "fix_availability": "Sometimes",
+      "explanation": "## What it does\nChecks for uses of mutable objects as function argument defaults.\n\n## Why is this bad?\nFunction defaults are evaluated once, when the function is defined.\n\nThe same mutable object is then shared across all calls to the function.\nIf the object is modified, those modifications will persist across calls,\nwhich can lead to unexpected behavior.\n\nInstead, prefer to use immutable data structures, or take `None` as a\ndefault, and initialize a new mutable object inside the function body\nfor each call.\n\nArguments with immutable type annotations will be ignored by this rule.\nTypes outside of the standard library can be marked as immutable with the\n[`lint.flake8-bugbear.extend-immutable-calls`] configuration option.\n\n## Known problems\nMutable argument defaults can be used intentionally to cache computation\nresults. Replacing the default with `None` or an immutable data structure\ndoes not work for such usages. Instead, prefer the `@functools.lru_cache`\ndecorator from the standard library.\n\n## Example\n```python\ndef add_to_list(item, some_list=[]):\n    some_list.append(item)\n    return some_list\n\n\nl1 = add_to_list(0)  # [0]\nl2 = add_to_list(1)  # [0, 1]\n```\n\nUse instead:\n```python\ndef add_to_list(item, some_list=None):\n    if some_list is None:\n        some_list = []\n    some_list.append(item)\n    return some_list\n\n\nl1 = add_to_list(0)  # [0]\nl2 = add_to_list(1)  # [1]\n```\n\n## Options\n- `lint.flake8-bugbear.extend-immutable-calls`\n\n## Fix safety\n\nThis fix is marked as unsafe because it replaces the mutable default with `None`\nand initializes it in the function body, which may not be what the user intended,\nas described above.\n\n## References\n- [Python documentation: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.92"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_bugbear/rules/mutable_argument_default.rs",
+        "line": 81
+      }
+    },
+    {
+      "name": "raise-without-from-inside-except",
+      "code": "B904",
+      "linter": "flake8-bugbear",
+      "summary": "Within an `except*` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "message_formats": [
+        "Within an `except*` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+        "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for `raise` statements in exception handlers that lack a `from`\nclause.\n\n## Why is this bad?\nIn Python, `raise` can be used with or without an exception from which the\ncurrent exception is derived. This is known as exception chaining. When\nprinting the stack trace, chained exceptions are displayed in such a way\nso as make it easier to trace the exception back to its root cause.\n\nWhen raising a new exception from within an `except` clause, it's recommended to\ninclude a `from` clause to explicitly set the exception's cause. Without it,\nPython will implicitly chain from the current exception (setting `__context__`),\nbut the `__cause__` attribute won't be set, which may make debugging slightly\nmore difficult.\n\n## Example\n```python\ntry:\n    ...\nexcept FileNotFoundError:\n    if ...:\n        raise RuntimeError(\"...\")\n    else:\n        raise UserWarning(\"...\")\n```\n\nUse instead:\n```python\ntry:\n    ...\nexcept FileNotFoundError as exc:\n    if ...:\n        raise RuntimeError(\"...\") from None\n    else:\n        raise UserWarning(\"...\") from exc\n```\n\n## References\n- [Python documentation: `raise` statement](https://docs.python.org/3/reference/simple_stmts.html#the-raise-statement)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.138"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_bugbear/rules/raise_without_from_inside_except.rs",
+        "line": 51
+      }
+    },
+    {
+      "name": "call-datetime-without-tzinfo",
+      "code": "DTZ001",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.datetime()` called without a `tzinfo` argument",
+      "message_formats": [
+        "`datetime.datetime()` called without a `tzinfo` argument",
+        "`tzinfo=None` passed to `datetime.datetime()`"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for `datetime` instantiations that do not specify a timezone.\n\n## Why is this bad?\n`datetime` objects are \"naive\" by default, in that they do not include\ntimezone information. \"Naive\" objects are easy to understand, but ignore\nsome aspects of reality, which can lead to subtle bugs. Timezone-aware\n`datetime` objects are preferred, as they represent a specific moment in\ntime, unlike \"naive\" objects.\n\nBy providing a non-`None` value for `tzinfo`, a `datetime` can be made\ntimezone-aware.\n\n## Example\n```python\nimport datetime\n\ndatetime.datetime(2000, 1, 1, 0, 0, 0)\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime(2000, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc)\n```\n\nOr, on Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime(2000, 1, 1, 0, 0, 0, tzinfo=datetime.UTC)\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_without_tzinfo.rs",
+        "line": 47
+      }
+    },
+    {
+      "name": "call-datetime-today",
+      "code": "DTZ002",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.datetime.today()` used",
+      "message_formats": [
+        "`datetime.datetime.today()` used"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for usage of `datetime.datetime.today()`.\n\n## Why is this bad?\n`datetime` objects are \"naive\" by default, in that they do not include\ntimezone information. \"Naive\" objects are easy to understand, but ignore\nsome aspects of reality, which can lead to subtle bugs. Timezone-aware\n`datetime` objects are preferred, as they represent a specific moment in\ntime, unlike \"naive\" objects.\n\n`datetime.datetime.today()` creates a \"naive\" object; instead, use\n`datetime.datetime.now(tz=...)` to create a timezone-aware object.\n\n## Example\n```python\nimport datetime\n\ndatetime.datetime.today()\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.timezone.utc)\n```\n\nOr, for Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.UTC)\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_today.rs",
+        "line": 48
+      }
+    },
+    {
+      "name": "call-datetime-utcnow",
+      "code": "DTZ003",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.datetime.utcnow()` used",
+      "message_formats": [
+        "`datetime.datetime.utcnow()` used"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for usage of `datetime.datetime.utcnow()`.\n\n## Why is this bad?\nPython datetime objects can be naive or timezone-aware. While an aware\nobject represents a specific moment in time, a naive object does not\ncontain enough information to unambiguously locate itself relative to other\ndatetime objects. Since this can lead to errors, it is recommended to\nalways use timezone-aware objects.\n\n`datetime.datetime.utcnow()` returns a naive datetime object; instead, use\n`datetime.datetime.now(tz=...)` to create a timezone-aware object.\n\n## Example\n```python\nimport datetime\n\ndatetime.datetime.utcnow()\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.timezone.utc)\n```\n\nOr, for Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.UTC)\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_utcnow.rs",
+        "line": 48
+      }
+    },
+    {
+      "name": "call-datetime-utcfromtimestamp",
+      "code": "DTZ004",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.datetime.utcfromtimestamp()` used",
+      "message_formats": [
+        "`datetime.datetime.utcfromtimestamp()` used"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for usage of `datetime.datetime.utcfromtimestamp()`.\n\n## Why is this bad?\nPython datetime objects can be naive or timezone-aware. While an aware\nobject represents a specific moment in time, a naive object does not\ncontain enough information to unambiguously locate itself relative to other\ndatetime objects. Since this can lead to errors, it is recommended to\nalways use timezone-aware objects.\n\n`datetime.datetime.utcfromtimestamp()` returns a naive datetime\nobject; instead, use `datetime.datetime.fromtimestamp(ts, tz=...)`\nto create a timezone-aware object.\n\n## Example\n```python\nimport datetime\n\ndatetime.datetime.utcfromtimestamp(946684800)\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime.fromtimestamp(946684800, tz=datetime.timezone.utc)\n```\n\nOr, on Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime.fromtimestamp(946684800, tz=datetime.UTC)\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_utcfromtimestamp.rs",
+        "line": 49
+      }
+    },
+    {
+      "name": "call-datetime-now-without-tzinfo",
+      "code": "DTZ005",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.datetime.now()` called without a `tz` argument",
+      "message_formats": [
+        "`datetime.datetime.now()` called without a `tz` argument",
+        "`tz=None` passed to `datetime.datetime.now()`"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for usages of `datetime.datetime.now()` that do not specify a timezone.\n\n## Why is this bad?\nPython datetime objects can be naive or timezone-aware. While an aware\nobject represents a specific moment in time, a naive object does not\ncontain enough information to unambiguously locate itself relative to other\ndatetime objects. Since this can lead to errors, it is recommended to\nalways use timezone-aware objects.\n\n`datetime.datetime.now()` or `datetime.datetime.now(tz=None)` returns a naive\ndatetime object. Instead, use `datetime.datetime.now(tz=<timezone>)` to create\na timezone-aware object.\n\n## Example\n```python\nimport datetime\n\ndatetime.datetime.now()\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.timezone.utc)\n```\n\nOr, for Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.UTC)\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_now_without_tzinfo.rs",
+        "line": 48
+      }
+    },
+    {
+      "name": "call-datetime-fromtimestamp",
+      "code": "DTZ006",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.datetime.fromtimestamp()` called without a `tz` argument",
+      "message_formats": [
+        "`datetime.datetime.fromtimestamp()` called without a `tz` argument",
+        "`tz=None` passed to `datetime.datetime.fromtimestamp()`"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for usage of `datetime.datetime.fromtimestamp()` that do not specify\na timezone.\n\n## Why is this bad?\nPython datetime objects can be naive or timezone-aware. While an aware\nobject represents a specific moment in time, a naive object does not\ncontain enough information to unambiguously locate itself relative to other\ndatetime objects. Since this can lead to errors, it is recommended to\nalways use timezone-aware objects.\n\n`datetime.datetime.fromtimestamp(ts)` or\n`datetime.datetime.fromtimestampe(ts, tz=None)` returns a naive datetime\nobject. Instead, use `datetime.datetime.fromtimestamp(ts, tz=<timezone>)`\nto create a timezone-aware object.\n\n## Example\n```python\nimport datetime\n\ndatetime.datetime.fromtimestamp(946684800)\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime.fromtimestamp(946684800, tz=datetime.timezone.utc)\n```\n\nOr, on Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime.fromtimestamp(946684800, tz=datetime.UTC)\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_fromtimestamp.rs",
+        "line": 50
+      }
+    },
+    {
+      "name": "call-datetime-strptime-without-zone",
+      "code": "DTZ007",
+      "linter": "flake8-datetimez",
+      "summary": "Naive datetime constructed using `datetime.datetime.strptime()` without %z",
+      "message_formats": [
+        "Naive datetime constructed using `datetime.datetime.strptime()` without %z",
+        "`datetime.datetime.strptime(...).replace(tz=None)` used"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for uses of `datetime.datetime.strptime()` that lead to naive\ndatetime objects.\n\n## Why is this bad?\nPython datetime objects can be naive or timezone-aware. While an aware\nobject represents a specific moment in time, a naive object does not\ncontain enough information to unambiguously locate itself relative to other\ndatetime objects. Since this can lead to errors, it is recommended to\nalways use timezone-aware objects.\n\n`datetime.datetime.strptime()` without `%z` returns a naive datetime\nobject. Follow it with `.replace(tzinfo=<timezone>)` or `.astimezone()`.\n\n## Example\n```python\nimport datetime\n\ndatetime.datetime.strptime(\"2022/01/31\", \"%Y/%m/%d\")\n```\n\nInstead, use `.replace(tzinfo=<timezone>)`:\n```python\nimport datetime\n\ndatetime.datetime.strptime(\"2022/01/31\", \"%Y/%m/%d\").replace(\n    tzinfo=datetime.timezone.utc\n)\n```\n\nOr, use `.astimezone()`:\n```python\nimport datetime\n\ndatetime.datetime.strptime(\"2022/01/31\", \"%Y/%m/%d\").astimezone(datetime.timezone.utc)\n```\n\nOn Python 3.11 and later, `datetime.timezone.utc` can be replaced with\n`datetime.UTC`.\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n- [Python documentation: `strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_datetime_strptime_without_zone.rs",
+        "line": 53
+      }
+    },
+    {
+      "name": "call-date-today",
+      "code": "DTZ011",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.date.today()` used",
+      "message_formats": [
+        "`datetime.date.today()` used"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for usage of `datetime.date.today()`.\n\n## Why is this bad?\nPython date objects are naive, that is, not timezone-aware. While an aware\nobject represents a specific moment in time, a naive object does not\ncontain enough information to unambiguously locate itself relative to other\ndatetime objects. Since this can lead to errors, it is recommended to\nalways use timezone-aware objects.\n\n`datetime.date.today` returns a naive date object without taking timezones\ninto account. Instead, use `datetime.datetime.now(tz=...).date()` to\ncreate a timezone-aware object and retrieve its date component.\n\n## Example\n```python\nimport datetime\n\ndatetime.date.today()\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.timezone.utc).date()\n```\n\nOr, for Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime.now(tz=datetime.UTC).date()\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_date_today.rs",
+        "line": 47
+      }
+    },
+    {
+      "name": "call-date-fromtimestamp",
+      "code": "DTZ012",
+      "linter": "flake8-datetimez",
+      "summary": "`datetime.date.fromtimestamp()` used",
+      "message_formats": [
+        "`datetime.date.fromtimestamp()` used"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for usage of `datetime.date.fromtimestamp()`.\n\n## Why is this bad?\nPython date objects are naive, that is, not timezone-aware. While an aware\nobject represents a specific moment in time, a naive object does not\ncontain enough information to unambiguously locate itself relative to other\ndatetime objects. Since this can lead to errors, it is recommended to\nalways use timezone-aware objects.\n\n`datetime.date.fromtimestamp(ts)` returns a naive date object.\nInstead, use `datetime.datetime.fromtimestamp(ts, tz=...).date()` to\ncreate a timezone-aware datetime object and retrieve its date component.\n\n## Example\n```python\nimport datetime\n\ndatetime.date.fromtimestamp(946684800)\n```\n\nUse instead:\n```python\nimport datetime\n\ndatetime.datetime.fromtimestamp(946684800, tz=datetime.timezone.utc).date()\n```\n\nOr, for Python 3.11 and later:\n```python\nimport datetime\n\ndatetime.datetime.fromtimestamp(946684800, tz=datetime.UTC).date()\n```\n\n## References\n- [Python documentation: Aware and Naive Objects](https://docs.python.org/3/library/datetime.html#aware-and-naive-objects)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_datetimez/rules/call_date_fromtimestamp.rs",
+        "line": 47
+      }
+    },
+    {
+      "name": "logging-f-string",
+      "code": "G004",
+      "linter": "flake8-logging-format",
+      "summary": "Logging statement uses f-string",
+      "message_formats": [
+        "Logging statement uses f-string"
+      ],
+      "fix": "Fix is sometimes available.",
+      "fix_availability": "Sometimes",
+      "explanation": "## What it does\nChecks for uses of f-strings to format logging messages.\n\n## Why is this bad?\nThe `logging` module provides a mechanism for passing additional values to\nbe logged using the `extra` keyword argument. This is more consistent, more\nefficient, and less error-prone than formatting the string directly.\n\nUsing f-strings to format a logging message requires that Python eagerly\nformat the string, even if the logging statement is never executed (e.g.,\nif the log level is above the level of the logging statement), whereas\nusing the `extra` keyword argument defers formatting until required.\n\nAdditionally, the use of `extra` will ensure that the values are made\navailable to all handlers, which can then be configured to log the values\nin a consistent manner.\n\nAs an alternative to `extra`, passing values as arguments to the logging\nmethod can also be used to defer string formatting until required.\n\n## Known problems\n\nThis rule detects uses of the `logging` module via a heuristic.\nSpecifically, it matches against:\n\n- Uses of the `logging` module itself (e.g., `import logging; logging.info(...)`).\n- Uses of `flask.current_app.logger` (e.g., `from flask import current_app; current_app.logger.info(...)`).\n- Objects whose name starts with `log` or ends with `logger` or `logging`,\n  when used in the same file in which they are defined (e.g., `logger = logging.getLogger(); logger.info(...)`).\n- Imported objects marked as loggers via the [`lint.logger-objects`] setting, which can be\n  used to enforce these rules against shared logger objects (e.g., `from module import logger; logger.info(...)`,\n  when [`lint.logger-objects`] is set to `[\"module.logger\"]`).\n\n## Example\n```python\nimport logging\n\nlogging.basicConfig(format=\"%(message)s\", level=logging.INFO)\n\nuser = \"Maria\"\n\nlogging.info(f\"{user} - Something happened\")\n```\n\nUse instead:\n```python\nimport logging\n\nlogging.basicConfig(format=\"%(user_id)s - %(message)s\", level=logging.INFO)\n\nuser = \"Maria\"\n\nlogging.info(\"Something happened\", extra=dict(user_id=user))\n```\n\nOr:\n```python\nimport logging\n\nlogging.basicConfig(format=\"%(message)s\", level=logging.INFO)\n\nuser = \"Maria\"\n\nlogging.info(\"%s - Something happened\", user)\n```\n\n## Options\n- `lint.logger-objects`\n\n## References\n- [Python documentation: `logging`](https://docs.python.org/3/library/logging.html)\n- [Python documentation: Optimization](https://docs.python.org/3/howto/logging.html#optimization)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.236"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_logging_format/violations.rs",
+        "line": 329
+      }
+    },
+    {
+      "name": "pytest-raises-too-broad",
+      "code": "PT011",
+      "linter": "flake8-pytest-style",
+      "summary": "`pytest.raises({exception})` is too broad, set the `match` parameter or use a more specific exception",
+      "message_formats": [
+        "`pytest.raises({exception})` is too broad, set the `match` parameter or use a more specific exception"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for `pytest.raises` calls without a `match` or `check` parameter.\n\n## Why is this bad?\n`pytest.raises(Error)` will catch any `Error` and may catch errors that are\nunrelated to the code under test. To avoid this, `pytest.raises` should be\ncalled with a `match` parameter (to constrain the exception message) or a\n`check` parameter (to constrain the exception itself). The exception names\nthat require a `match` or `check` parameter can be configured via the\n[`lint.flake8-pytest-style.raises-require-match-for`] and\n[`lint.flake8-pytest-style.raises-extend-require-match-for`] settings.\n\n## Example\n```python\nimport pytest\n\n\ndef test_foo():\n    with pytest.raises(ValueError):\n        ...\n\n    # empty string is also an error\n    with pytest.raises(ValueError, match=\"\"):\n        ...\n```\n\nUse instead:\n```python\nimport pytest\n\n\ndef test_foo():\n    with pytest.raises(ValueError, match=\"expected message\"):\n        ...\n```\n\nOr, for pytest 8.4.0 and later:\n```python\nimport pytest\n\n\ndef test_foo():\n    with pytest.raises(OSError, check=lambda e: e.errno == 42):\n        ...\n```\n\n## Options\n- `lint.flake8-pytest-style.raises-require-match-for`\n- `lint.flake8-pytest-style.raises-extend-require-match-for`\n\n## References\n- [`pytest` documentation: `pytest.raises`](https://docs.pytest.org/en/latest/reference/reference.html#pytest-raises)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.208"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_pytest_style/rules/raises.rs",
+        "line": 116
+      }
+    },
+    {
+      "name": "pytest-raises-with-multiple-statements",
+      "code": "PT012",
+      "linter": "flake8-pytest-style",
+      "summary": "`pytest.raises()` block should contain a single simple statement",
+      "message_formats": [
+        "`pytest.raises()` block should contain a single simple statement"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for `pytest.raises` context managers with multiple statements.\n\nThis rule allows `pytest.raises` bodies to contain `for`\nloops with empty bodies (e.g., `pass` or `...` statements), to test\niterator behavior.\n\n## Why is this bad?\nWhen a `pytest.raises` is used as a context manager and contains multiple\nstatements, it can lead to the test passing when it actually should fail.\n\nA `pytest.raises` context manager should only contain a single simple\nstatement that raises the expected exception.\n\n## Example\n```python\nimport pytest\n\n\ndef test_foo():\n    with pytest.raises(MyError):\n        setup()\n        func_to_test()  # not executed if `setup()` raises `MyError`\n        assert foo()  # not executed\n```\n\nUse instead:\n```python\nimport pytest\n\n\ndef test_foo():\n    setup()\n    with pytest.raises(MyError):\n        func_to_test()\n    assert foo()\n```\n\n## References\n- [`pytest` documentation: `pytest.raises`](https://docs.pytest.org/en/latest/reference/reference.html#pytest-raises)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.208"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_pytest_style/rules/raises.rs",
+        "line": 53
+      }
+    },
+    {
+      "name": "banned-api",
+      "code": "TID251",
+      "linter": "flake8-tidy-imports",
+      "summary": "`{name}` is banned: {message}",
+      "message_formats": [
+        "`{name}` is banned: {message}"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for banned imports.\n\n## Why is this bad?\nProjects may want to ensure that specific modules or module members are\nnot imported or accessed.\n\nSecurity or other company policies may be a reason to impose\nrestrictions on importing external Python libraries. In some cases,\nprojects may adopt conventions around the use of certain modules or\nmodule members that are not enforceable by the language itself.\n\nThis rule enforces certain import conventions project-wide automatically.\n\n## Options\n- `lint.flake8-tidy-imports.banned-api`\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.201"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/flake8_tidy_imports/rules/banned_api.rs",
+        "line": 27
+      }
+    },
+    {
+      "name": "pandas-use-of-inplace-argument",
+      "code": "PD002",
+      "linter": "pandas-vet",
+      "summary": "`inplace=True` should be avoided; it has inconsistent behavior",
+      "message_formats": [
+        "`inplace=True` should be avoided; it has inconsistent behavior"
+      ],
+      "fix": "Fix is sometimes available.",
+      "fix_availability": "Sometimes",
+      "explanation": "## What it does\nChecks for `inplace=True` usages in `pandas` function and method\ncalls.\n\n## Why is this bad?\nUsing `inplace=True` encourages mutation rather than immutable data,\nwhich is harder to reason about and may cause bugs. It also removes the\nability to use the method chaining style for `pandas` operations.\n\nFurther, in many cases, `inplace=True` does not provide a performance\nbenefit, as `pandas` will often copy `DataFrames` in the background.\n\n## Example\n```python\nimport pandas as pd\n\nstudents = pd.read_csv(\"students.csv\")\nstudents.sort_values(\"name\", inplace=True)\n```\n\nUse instead:\n```python\nimport pandas as pd\n\nstudents = pd.read_csv(\"students.csv\").sort_values(\"name\")\n```\n\n## References\n- [_Why You Should Probably Never Use pandas `inplace=True`_](https://towardsdatascience.com/why-you-should-probably-never-use-pandas-inplace-true-9f9f211849e4)\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.188"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/pandas_vet/rules/inplace_argument.rs",
+        "line": 42
+      }
+    },
+    {
+      "name": "pandas-df-variable-name",
+      "code": "PD901",
+      "linter": "pandas-vet",
+      "summary": "Avoid using the generic variable name `df` for DataFrames",
+      "message_formats": [
+        "Avoid using the generic variable name `df` for DataFrames"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## Removed\n\nThis rule has been removed as it's highly opinionated and overly strict in most cases.\n\n## What it does\nChecks for assignments to the variable `df`.\n\n## Why is this bad?\nAlthough `df` is a common variable name for a Pandas `DataFrame`, it's not a\ngreat variable name for production code, as it's non-descriptive and\nprone to name conflicts.\n\nInstead, use a more descriptive variable name.\n\n## Example\n```python\nimport pandas as pd\n\ndf = pd.read_csv(\"animals.csv\")\n```\n\nUse instead:\n```python\nimport pandas as pd\n\nanimals = pd.read_csv(\"animals.csv\")\n```\n",
+      "preview": false,
+      "status": {
+        "Removed": {
+          "since": "0.13.0"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/pandas_vet/rules/assignment_to_df.rs",
+        "line": 34
+      }
+    },
+    {
+      "name": "unused-import",
+      "code": "F401",
+      "linter": "Pyflakes",
+      "summary": "`{name}` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+      "message_formats": [
+        "`{name}` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+        "`{name}` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+        "`{name}` imported but unused"
+      ],
+      "fix": "Fix is sometimes available.",
+      "fix_availability": "Sometimes",
+      "explanation": "## What it does\nChecks for unused imports.\n\n## Why is this bad?\nUnused imports add a performance overhead at runtime, and risk creating\nimport cycles. They also increase the cognitive load of reading the code.\n\nIf an import statement is used to check for the availability or existence\nof a module, consider using `importlib.util.find_spec` instead.\n\nIf an import statement is used to re-export a symbol as part of a module's\npublic interface, consider using a \"redundant\" import alias, which\ninstructs Ruff (and other tools) to respect the re-export, and avoid\nmarking it as unused, as in:\n\n```python\nfrom module import member as member\n```\n\nAlternatively, you can use `__all__` to declare a symbol as part of the module's\ninterface, as in:\n\n```python\n# __init__.py\nimport some_module\n\n__all__ = [\"some_module\"]\n```\n\n## Preview\nWhen [preview] is enabled (and certain simplifying assumptions\nare met), we analyze all import statements for a given module\nwhen determining whether an import is used, rather than simply\nthe last of these statements. This can result in both different and\nmore import statements being marked as unused.\n\nFor example, if a module consists of\n\n```python\nimport a\nimport a.b\n```\n\nthen both statements are marked as unused under [preview], whereas\nonly the second is marked as unused under stable behavior.\n\nAs another example, if a module consists of\n\n```python\nimport a.b\nimport a\n\na.b.foo()\n```\n\nthen a diagnostic will be emitted for the second line under [preview],\nwhereas no diagnostic is emitted under stable behavior.\n\nNote that this behavior is somewhat subjective and is designed\nto conform to the developer's intuition rather than Python's actual\nexecution. To wit, the statement `import a.b` automatically executes\n`import a`, so in some sense `import a` is _always_ redundant\nin the presence of `import a.b`.\n\n\n## Fix safety\n\nFixes to remove unused imports are safe, except in `__init__.py` files.\n\nApplying fixes to `__init__.py` files is currently in preview. The fix offered depends on the\ntype of the unused import. Ruff will suggest a safe fix to export first-party imports with\neither a redundant alias or, if already present in the file, an `__all__` entry. If multiple\n`__all__` declarations are present, Ruff will not offer a fix. Ruff will suggest an unsafe fix\nto remove third-party and standard library imports -- the fix is unsafe because the module's\ninterface changes.\n\nSee [this FAQ section](https://docs.astral.sh/ruff/faq/#how-does-ruff-determine-which-of-my-imports-are-first-party-third-party-etc)\nfor more details on how Ruff\ndetermines whether an import is first or third-party.\n\n## Example\n\n```python\nimport numpy as np  # unused import\n\n\ndef area(radius):\n    return 3.14 * radius**2\n```\n\nUse instead:\n\n```python\ndef area(radius):\n    return 3.14 * radius**2\n```\n\nTo check the availability of a module, use `importlib.util.find_spec`:\n\n```python\nfrom importlib.util import find_spec\n\nif find_spec(\"numpy\") is not None:\n    print(\"numpy is installed\")\nelse:\n    print(\"numpy is not installed\")\n```\n\n## Options\n- `lint.ignore-init-module-imports`\n- `lint.pyflakes.allowed-unused-imports`\n\n## References\n- [Python documentation: `import`](https://docs.python.org/3/reference/simple_stmts.html#the-import-statement)\n- [Python documentation: `importlib.util.find_spec`](https://docs.python.org/3/library/importlib.html#importlib.util.find_spec)\n- [Typing documentation: interface conventions](https://typing.python.org/en/latest/spec/distributing.html#library-interface-public-and-private-symbols)\n\n[preview]: https://docs.astral.sh/ruff/preview/\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.18"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/pyflakes/rules/unused_import.rs",
+        "line": 144
+      }
+    },
+    {
+      "name": "unused-variable",
+      "code": "F841",
+      "linter": "Pyflakes",
+      "summary": "Local variable `{name}` is assigned to but never used",
+      "message_formats": [
+        "Local variable `{name}` is assigned to but never used"
+      ],
+      "fix": "Fix is sometimes available.",
+      "fix_availability": "Sometimes",
+      "explanation": "## What it does\nChecks for the presence of unused variables in function scopes.\n\n## Why is this bad?\nA variable that is defined but not used is likely a mistake, and should\nbe removed to avoid confusion.\n\nIf a variable is intentionally defined-but-not-used, it should be\nprefixed with an underscore, or some other value that adheres to the\n[`lint.dummy-variable-rgx`] pattern.\n\n## Example\n```python\ndef foo():\n    x = 1\n    y = 2\n    return x\n```\n\nUse instead:\n```python\ndef foo():\n    x = 1\n    return x\n```\n\n## Fix safety\n\nThis rule's fix is marked as unsafe because removing an unused variable assignment may\ndelete comments that are attached to the assignment.\n\n## See also\n\nThis rule does not apply to bindings in unpacked assignments (e.g. `x, y = 1, 2`). See\n[`unused-unpacked-variable`][RUF059] for this case.\n\n## Options\n- `lint.dummy-variable-rgx`\n\n[RUF059]: https://docs.astral.sh/ruff/rules/unused-unpacked-variable/\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.22"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/pyflakes/rules/unused_variable.rs",
+        "line": 55
+      }
+    },
+    {
+      "name": "too-many-public-methods",
+      "code": "PLR0904",
+      "linter": "Pylint",
+      "summary": "Too many public methods ({methods} > {max_methods})",
+      "message_formats": [
+        "Too many public methods ({methods} > {max_methods})"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for classes with too many public methods\n\nBy default, this rule allows up to 20 public methods, as configured by\nthe [`lint.pylint.max-public-methods`] option.\n\n## Why is this bad?\nClasses with many public methods are harder to understand\nand maintain.\n\nInstead, consider refactoring the class into separate classes.\n\n## Example\nAssuming that `lint.pylint.max-public-methods` is set to 5:\n```python\nclass Linter:\n    def __init__(self):\n        pass\n\n    def pylint(self):\n        pass\n\n    def pylint_settings(self):\n        pass\n\n    def flake8(self):\n        pass\n\n    def flake8_settings(self):\n        pass\n\n    def pydocstyle(self):\n        pass\n\n    def pydocstyle_settings(self):\n        pass\n```\n\nUse instead:\n```python\nclass Linter:\n    def __init__(self):\n        self.pylint = Pylint()\n        self.flake8 = Flake8()\n        self.pydocstyle = Pydocstyle()\n\n    def lint(self):\n        pass\n\n\nclass Pylint:\n    def lint(self):\n        pass\n\n    def settings(self):\n        pass\n\n\nclass Flake8:\n    def lint(self):\n        pass\n\n    def settings(self):\n        pass\n\n\nclass Pydocstyle:\n    def lint(self):\n        pass\n\n    def settings(self):\n        pass\n```\n\n## Options\n- `lint.pylint.max-public-methods`\n",
+      "preview": true,
+      "status": {
+        "Preview": {
+          "since": "v0.0.290"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/pylint/rules/too_many_public_methods.rs",
+        "line": 85
+      }
+    },
+    {
+      "name": "raise-vanilla-args",
+      "code": "TRY003",
+      "linter": "tryceratops",
+      "summary": "Avoid specifying long messages outside the exception class",
+      "message_formats": [
+        "Avoid specifying long messages outside the exception class"
+      ],
+      "fix": "Fix is not available.",
+      "fix_availability": "None",
+      "explanation": "## What it does\nChecks for long exception messages that are not defined in the exception\nclass itself.\n\n## Why is this bad?\nBy formatting an exception message at the `raise` site, the exception class\nbecomes less reusable, and may now raise inconsistent messages depending on\nwhere it is raised.\n\nIf the exception message is instead defined within the exception class, it\nwill be consistent across all `raise` invocations.\n\nThis rule is not enforced for some built-in exceptions that are commonly\nraised with a message and would be unusual to subclass, such as\n`NotImplementedError`.\n\n## Example\n```python\nclass CantBeNegative(Exception):\n    pass\n\n\ndef foo(x):\n    if x < 0:\n        raise CantBeNegative(f\"{x} is negative\")\n```\n\nUse instead:\n```python\nclass CantBeNegative(Exception):\n    def __init__(self, number):\n        super().__init__(f\"{number} is negative\")\n\n\ndef foo(x):\n    if x < 0:\n        raise CantBeNegative(x)\n```\n",
+      "preview": false,
+      "status": {
+        "Stable": {
+          "since": "v0.0.236"
+        }
+      },
+      "source_location": {
+        "file": "crates/ruff_linter/src/rules/tryceratops/rules/raise_vanilla_args.rs",
+        "line": 46
+      }
+    }
+  ]
+}

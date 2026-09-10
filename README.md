@@ -28,7 +28,9 @@ The source layers establish import boundaries; their presence does not claim imp
 
 ## Setup and verification
 
-Use the pinned Python/tool versions in the repository configuration, `uv`, and a working Docker Engine with Docker Compose. Keep local credentials and state out of Git.
+Use the pinned Python/tool versions in the repository configuration, `uv`, and the Docker CLI with Docker Compose. The fast gate renders Compose configuration for static policy across every profile, so it requires the client and Compose plugin but does not require a running Docker daemon. Keep local credentials and state out of Git.
+
+The normal Docker client configuration works. If the current process already uses `DOCKER_CONFIG` to select another client configuration directory, the verification scripts preserve it; keep that directory and its contents private.
 
 ```sh
 uv sync --locked
@@ -39,7 +41,7 @@ scripts/fast-checks.sh
 
 The bootstrap installs the pinned verification binaries for macOS Apple Silicon or Linux x86-64; see [toolchain setup](tools/README.md).
 
-The fast entrypoint runs the configured code and infrastructure gates. Individual Python checks are:
+The fast entrypoint runs the configured code and infrastructure gates. Its external-contract stage uses dependencies pinned by `uv.lock` to check package cycles and GitHub Actions, then renders every Compose profile and validates the resulting JSON without starting services. Individual checks are:
 
 ```sh
 uv run python -m verification
@@ -47,9 +49,12 @@ uv run ruff check .
 uv run ruff format --check .
 uv run mypy .
 uv run pytest tests/unit tests/integration
+scripts/check-contracts.sh
 ```
 
-Run the one slower integration seam explicitly:
+The hosted quality workflow groups runs by workflow and Git ref and cancels a superseded run for the same ref. The manually dispatched foundation-seam workflow uses the same grouping but does not interrupt a running requested seam. These are configured scheduling semantics; see the resulting-tree evidence for what was executed locally.
+
+The slower integration seam requires a working Docker Engine. Run it explicitly:
 
 ```sh
 scripts/slow-seam.sh

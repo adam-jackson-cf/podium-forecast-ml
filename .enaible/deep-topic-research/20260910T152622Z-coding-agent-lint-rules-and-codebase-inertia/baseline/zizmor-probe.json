@@ -1,0 +1,21 @@
+{
+  "command": [
+    "uv",
+    "tool",
+    "run",
+    "--from",
+    "zizmor==1.30.1",
+    "zizmor",
+    "--offline",
+    "--strict-collection",
+    "--no-ignores",
+    "--no-progress",
+    "--format",
+    "json",
+    ".github/workflows"
+  ],
+  "exitCode": 13,
+  "stdout": "[\n  {\n    \"ident\": \"artipacked\",\n    \"desc\": \"credential persistence through GitHub Actions artifacts\",\n    \"url\": \"https://docs.zizmor.sh/audits/#artipacked\",\n    \"determinations\": {\n      \"confidence\": \"Low\",\n      \"severity\": \"Medium\",\n      \"persona\": \"Regular\"\n    },\n    \"locations\": [\n      {\n        \"symbolic\": {\n          \"key\": {\n            \"Local\": {\n              \"verbatim_path\": \".github/workflows/foundation-seam.yaml\"\n            }\n          },\n          \"annotation\": \"does not set persist-credentials: false\",\n          \"route\": {\n            \"route\": [\n              {\n                \"Key\": \"jobs\"\n              },\n              {\n                \"Key\": \"foundation\"\n              },\n              {\n                \"Key\": \"steps\"\n              },\n              {\n                \"Index\": 0\n              }\n            ]\n          },\n          \"feature_kind\": \"Normal\",\n          \"kind\": \"Primary\"\n        },\n        \"concrete\": {\n          \"location\": {\n            \"start_point\": {\n              \"row\": 10,\n              \"column\": 8\n            },\n            \"end_point\": {\n              \"row\": 10,\n              \"column\": 71\n            },\n            \"offset_span\": {\n              \"start\": 166,\n              \"end\": 229\n            }\n          },\n          \"feature\": \"uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\",\n          \"comments\": []\n        }\n      }\n    ],\n    \"ignored\": false,\n    \"fixes\": [\n      {\n        \"title\": \"set persist-credentials: false\",\n        \"key\": {\n          \"Local\": {\n            \"verbatim_path\": \".github/workflows/foundation-seam.yaml\"\n          }\n        },\n        \"disposition\": \"unsafe\"\n      }\n    ]\n  },\n  {\n    \"ident\": \"artipacked\",\n    \"desc\": \"credential persistence through GitHub Actions artifacts\",\n    \"url\": \"https://docs.zizmor.sh/audits/#artipacked\",\n    \"determinations\": {\n      \"confidence\": \"Low\",\n      \"severity\": \"Medium\",\n      \"persona\": \"Regular\"\n    },\n    \"locations\": [\n      {\n        \"symbolic\": {\n          \"key\": {\n            \"Local\": {\n              \"verbatim_path\": \".github/workflows/quality.yaml\"\n            }\n          },\n          \"annotation\": \"does not set persist-credentials: false\",\n          \"route\": {\n            \"route\": [\n              {\n                \"Key\": \"jobs\"\n              },\n              {\n                \"Key\": \"fast\"\n              },\n              {\n                \"Key\": \"steps\"\n              },\n              {\n                \"Index\": 0\n              }\n            ]\n          },\n          \"feature_kind\": \"Normal\",\n          \"kind\": \"Primary\"\n        },\n        \"concrete\": {\n          \"location\": {\n            \"start_point\": {\n              \"row\": 12,\n              \"column\": 8\n            },\n            \"end_point\": {\n              \"row\": 12,\n              \"column\": 71\n            },\n            \"offset_span\": {\n              \"start\": 176,\n              \"end\": 239\n            }\n          },\n          \"feature\": \"uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\",\n          \"comments\": []\n        }\n      }\n    ],\n    \"ignored\": false,\n    \"fixes\": [\n      {\n        \"title\": \"set persist-credentials: false\",\n        \"key\": {\n          \"Local\": {\n            \"verbatim_path\": \".github/workflows/quality.yaml\"\n          }\n        },\n        \"disposition\": \"unsafe\"\n      }\n    ]\n  }\n]",
+  "stderr": "",
+  "scope": "Read-only candidate scanner; no autofix and no existing gate changes."
+}

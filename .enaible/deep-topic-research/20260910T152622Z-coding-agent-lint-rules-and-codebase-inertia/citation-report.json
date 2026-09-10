@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "2.0",
+  "checkedAt": "2026-09-10T15:55:01.129421Z",
+  "status": "pass",
+  "items": [
+    {
+      "entityType": "finding",
+      "entityId": "f1",
+      "issues": []
+    },
+    {
+      "entityType": "finding",
+      "entityId": "f2",
+      "issues": []
+    },
+    {
+      "entityType": "finding",
+      "entityId": "f3",
+      "issues": []
+    },
+    {
+      "entityType": "finding",
+      "entityId": "f4",
+      "issues": []
+    },
+    {
+      "entityType": "finding",
+      "entityId": "f5",
+      "issues": []
+    },
+    {
+      "entityType": "finding",
+      "entityId": "f6",
+      "issues": []
+    },
+    {
+      "entityType": "insight",
+      "entityId": "i1",
+      "issues": []
+    },
+    {
+      "entityType": "insight",
+      "entityId": "i2",
+      "issues": []
+    },
+    {
+      "entityType": "insight",
+      "entityId": "i3",
+      "issues": []
+    },
+    {
+      "entityType": "insight",
+      "entityId": "i4",
+      "issues": []
+    },
+    {
+      "entityType": "insight",
+      "entityId": "i5",
+      "issues": []
+    },
+    {
+      "entityType": "recommendation",
+      "entityId": "r1",
+      "issues": []
+    },
+    {
+      "entityType": "recommendation",
+      "entityId": "r2",
+      "issues": []
+    },
+    {
+      "entityType": "recommendation",
+      "entityId": "r3",
+      "issues": []
+    },
+    {
+      "entityType": "recommendation",
+      "entityId": "r4",
+      "issues": []
+    },
+    {
+      "entityType": "recommendation",
+      "entityId": "r5",
+      "issues": []
+    },
+    {
+      "entityType": "recommendation",
+      "entityId": "r6",
+      "issues": []
+    }
+  ]
+}

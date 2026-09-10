@@ -2,12 +2,13 @@
 
 This repository establishes the local development and verification foundation for Workstream B - ML predictive forecasting. Implement only the requested scope; a green scaffold does not establish model or AWS readiness.
 
-- Keep user-facing setup, operation and verification instructions in `README.md` files. `docs/local-solution-assessment.md` is the requested architecture assessment, not a runbook.
+- Keep user-facing setup, operation and verification instructions in `README.md` files.
 - Never expose secrets. Verify presence only. Keep data extracts, credentials, generated models and Terraform state out of Git.
 - Preserve canonical wording and contracts. Replace obsolete designs rather than retain parallel legacy paths.
 - Do not suppress failures, loosen gates, add skip flags, or insert production mocks or placeholders to obtain green results.
 - Use `quality-policy.toml` and `pyproject.toml` as the canonical executable policy; do not duplicate numeric thresholds in instructions.
 - Report what was executed, what passed, and what remains unverified. Distinguish scaffold smoke results from model quality and actual Nexus integration.
+- Treat static checks as bounded evidence. Keep responsibility for IO ownership, failure propagation, asynchronous lifecycle and validated external data in implementation and review even where a checker cannot follow runtime dataflow.
 
 ## Load only relevant guidance
 

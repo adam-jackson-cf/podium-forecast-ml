@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "2.0",
+  "planId": "primary",
+  "plannedAt": "2026-09-10T15:26:44.345143Z",
+  "domainMapVersion": "2026-01-09",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Which coding-agent behaviours introduce immediate defects or long-term codebase inertia, what evidence supports these effects, and which behaviours can be detected deterministically?",
+      "domains": [
+        "technical"
+      ],
+      "primaryDomain": "technical",
+      "recencyPolicy": {
+        "preferredMonths": 12,
+        "maxMonths": 24
+      },
+      "expectedSourceTypes": [
+        "official-docs",
+        "repository",
+        "academic",
+        "industry-report",
+        "community"
+      ],
+      "rationale": {
+        "override": true,
+        "keywords": [],
+        "patterns": []
+      }
+    },
+    {
+      "id": "q2",
+      "text": "Which established Python linting, typing and architecture rules address gaps in our current configuration?",
+      "domains": [
+        "technical"
+      ],
+      "primaryDomain": "technical",
+      "recencyPolicy": {
+        "preferredMonths": 12,
+        "maxMonths": 24
+      },
+      "expectedSourceTypes": [
+        "official-docs",
+        "repository",
+        "academic",
+        "industry-report",
+        "community"
+      ],
+      "rationale": {
+        "override": true,
+        "keywords": [],
+        "patterns": []
+      }
+    },
+    {
+      "id": "q3",
+      "text": "Which rules address ML/data-pipeline correctness, particularly leakage, reproducibility, schema handling and external side effects?",
+      "domains": [
+        "technical"
+      ],
+      "primaryDomain": "technical",
+      "recencyPolicy": {
+        "preferredMonths": 12,
+        "maxMonths": 24
+      },
+      "expectedSourceTypes": [
+        "official-docs",
+        "repository",
+        "academic",
+        "industry-report",
+        "community"
+      ],
+      "rationale": {
+        "override": true,
+        "keywords": [],
+        "patterns": []
+      }
+    },
+    {
+      "id": "q4",
+      "text": "Which additional SQL, Terraform, container, shell and CI rules fit our stack?",
+      "domains": [
+        "technical"
+      ],
+      "primaryDomain": "technical",
+      "recencyPolicy": {
+        "preferredMonths": 12,
+        "maxMonths": 24
+      },
+      "expectedSourceTypes": [
+        "official-docs",
+        "repository",
+        "academic",
+        "industry-report",
+        "community"
+      ],
+      "rationale": {
+        "override": true,
+        "keywords": [],
+        "patterns": []
+      }
+    },
+    {
+      "id": "q5",
+      "text": "Which design constraints from other ecosystems would transfer usefully, and how could we enforce them?",
+      "domains": [
+        "technical"
+      ],
+      "primaryDomain": "technical",
+      "recencyPolicy": {
+        "preferredMonths": 12,
+        "maxMonths": 24
+      },
+      "expectedSourceTypes": [
+        "official-docs",
+        "repository",
+        "academic",
+        "industry-report",
+        "community"
+      ],
+      "rationale": {
+        "override": true,
+        "keywords": [],
+        "patterns": []
+      }
+    },
+    {
+      "id": "q6",
+      "text": "Which candidates should we adopt first, defer or reject, considering evidence strength, overlap, false positives and maintenance cost?",
+      "domains": [
+        "technical"
+      ],
+      "primaryDomain": "technical",
+      "recencyPolicy": {
+        "preferredMonths": 12,
+        "maxMonths": 24
+      },
+      "expectedSourceTypes": [
+        "official-docs",
+        "repository",
+        "academic",
+        "industry-report",
+        "community"
+      ],
+      "rationale": {
+        "override": true,
+        "keywords": [],
+        "patterns": []
+      }
+    }
+  ],
+  "summary": {
+    "technical": 6
+  }
+}

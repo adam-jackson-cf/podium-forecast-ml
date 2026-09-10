@@ -18,6 +18,48 @@ application = ["domain", "ports", "application"]
 adapters = ["domain", "ports", "adapters"]
 entrypoints = ["domain", "ports", "application", "adapters", "entrypoints"]
 
+[architecture.effects]
+restricted_layers = ["domain", "ports", "application"]
+forbidden_references = ["os.environ"]
+forbidden_calls = [
+  "builtins.input",
+  "builtins.open",
+  "builtins.print",
+  "os.getenv",
+  "os.makedirs",
+  "os.mkdir",
+  "os.putenv",
+  "os.remove",
+  "os.removedirs",
+  "os.rename",
+  "os.replace",
+  "os.rmdir",
+  "os.unlink",
+  "os.unsetenv",
+  "pathlib.Path.chmod",
+  "pathlib.Path.hardlink_to",
+  "pathlib.Path.mkdir",
+  "pathlib.Path.open",
+  "pathlib.Path.read_bytes",
+  "pathlib.Path.read_text",
+  "pathlib.Path.rename",
+  "pathlib.Path.replace",
+  "pathlib.Path.rmdir",
+  "pathlib.Path.symlink_to",
+  "pathlib.Path.touch",
+  "pathlib.Path.unlink",
+  "pathlib.Path.write_bytes",
+  "pathlib.Path.write_text",
+  "socket.create_connection",
+  "socket.socket",
+  "subprocess.Popen",
+  "subprocess.call",
+  "subprocess.check_call",
+  "subprocess.check_output",
+  "subprocess.run",
+  "urllib.request.urlopen",
+]
+
 [files.locations]
 ".sh" = ["scripts"]
 "Dockerfile" = ["containers"]

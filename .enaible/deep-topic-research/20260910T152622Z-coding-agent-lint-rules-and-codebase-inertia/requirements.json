@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "2.0",
+  "runId": "deep-topic-research-20260910T152622Z-coding-agent-lint-rules-and-codebase-inertia",
+  "startedAt": "2026-09-10T15:26:22.341022Z",
+  "researchRoot": "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.enaible/deep-topic-research/20260910T152622Z-coding-agent-lint-rules-and-codebase-inertia",
+  "objective": "Coding-agent lint rules and codebase inertia",
+  "scope": "Python 3.12, ML/data processing, PostgreSQL/SQL, Terraform/AWS, containers, shell, CI and testing. Compare present scaffold controls and transferable cross-language design rules. Research only; do not implement or loosen gates.",
+  "outputFormat": "Auditable Markdown report with prioritized candidate-rule matrix, concrete examples, source evidence, overlap, false positives, verification cost, and adoption recommendations.",
+  "decisionContext": "Choose the next rules that prevent immediate defects and long-term codebase inertia before ML implementation in podium-forecastin-ml. User confirmed the six-question brief including inertia expansion.",
+  "onlineResearch": "allowed",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Which coding-agent behaviours introduce immediate defects or long-term codebase inertia, what evidence supports these effects, and which behaviours can be detected deterministically?"
+    },
+    {
+      "id": "q2",
+      "text": "Which established Python linting, typing and architecture rules address gaps in our current configuration?"
+    },
+    {
+      "id": "q3",
+      "text": "Which rules address ML/data-pipeline correctness, particularly leakage, reproducibility, schema handling and external side effects?"
+    },
+    {
+      "id": "q4",
+      "text": "Which additional SQL, Terraform, container, shell and CI rules fit our stack?"
+    },
+    {
+      "id": "q5",
+      "text": "Which design constraints from other ecosystems would transfer usefully, and how could we enforce them?"
+    },
+    {
+      "id": "q6",
+      "text": "Which candidates should we adopt first, defer or reject, considering evidence strength, overlap, false positives and maintenance cost?"
+    }
+  ],
+  "constraints": {
+    "timeConstraints": null,
+    "targetAudience": "Project owner and future implementing coding agents",
+    "domainFocus": [
+      "technical"
+    ],
+    "existingKnowledge": "Baseline commit 54b2c88: Ruff selected E F W I UP B N SIM C4 C90 PLR RUF T20 RET ARG PTH S; mypy strict; custom iteration depth, names, import layers, suppression/location/guidance guards; pytest; SQLFluff; Terraform/TFLint/Trivy; Docker Hadolint; ShellCheck; actionlint; Gitleaks. Baseline 103 tests plus single foundation seam.",
+    "hardConstraints": [
+      {
+        "id": "six-thematic-findings",
+        "entity": "finding",
+        "rule": "min-count",
+        "value": 6
+      },
+      {
+        "id": "decision-ready-findings",
+        "entity": "finding",
+        "rule": "required-fields",
+        "fields": [
+          "questionIds",
+          "currentCoverage",
+          "ruleCandidates",
+          "enforcement",
+          "falsePositiveRisk",
+          "recommendation"
+        ],
+        "scope": "all"
+      }
+    ],
+    "notes": "Confirmed by user in this task. Highly rated means adoption, active maintenance, practitioner experience and evidence of usefulness; popularity is not demonstrated coding-agent effectiveness. Acceptance: rule-level recommendations mapped to the current baseline; distinguish proven facts from proposed adaptations; validate sources, citations, hard constraints and rendered report completeness. Prefer dated primary material; versioned repository snapshots use their explicitly identified commit/release publication date, not retrieval dates. No implementation, live AWS changes or changes to verification gates."
+  },
+  "capabilities": {
+    "required": [
+      "web-search-and-fetch",
+      "local-repository-read",
+      "python-research-scripts",
+      "temporary-repository-inspection"
+    ],
+    "available": [
+      "web-search-and-fetch",
+      "local-repository-read",
+      "python-research-scripts",
+      "temporary-repository-inspection"
+    ],
+    "blocked": [],
+    "rescopePlan": []
+  },
+  "sources": {
+    "allowed": [
+      "Primary documentation, maintained repositories, original engineering accounts, academic research and transparent original industry analyses."
+    ],
+    "blocked": null
+  }
+}

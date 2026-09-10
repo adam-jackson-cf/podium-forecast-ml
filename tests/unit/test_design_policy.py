@@ -145,6 +145,57 @@ def test_package_initializer_cannot_hide_an_adapter_dependency(policy: Policy) -
     assert list(check_architecture("src/podium_forecasting/__init__.py", "import boto3", policy))
 
 
+@pytest.mark.parametrize(
+    "source",
+    [
+        "open('snapshot.json')",
+        "import os as operating\noperating.getenv('RACE_DATE')",
+        "from os import environ as settings\nregion = settings['AWS_REGION']",
+        "from subprocess import run as execute\nexecute(['forecast'])",
+        "from pathlib import Path as FilePath\nFilePath('snapshot').read_text()",
+        "from pathlib import Path\nPath.write_text(Path('snapshot'), 'result')",
+        "import urllib.request as request\nrequest.urlopen('https://example.invalid')",
+        "import urllib.request\nurllib.request.urlopen('https://example.invalid')",
+    ],
+)
+def test_core_layers_reject_configured_direct_effects_and_import_aliases(
+    source: str, policy: Policy
+) -> None:
+    findings = list(
+        check_architecture("src/podium_forecasting/application/forecast.py", source, policy)
+    )
+    assert "ARCH003" in {finding.rule for finding in findings}
+
+
+@pytest.mark.parametrize(
+    ("path", "source"),
+    [
+        (
+            "src/podium_forecasting/domain/race.py",
+            "from pathlib import Path\nlocation = Path('snapshots') / 'race.json'",
+        ),
+        (
+            "src/podium_forecasting/ports/snapshots.py",
+            "from pathlib import PurePath\n"
+            "def suffix(path: PurePath) -> str:\n    return path.suffix",
+        ),
+        (
+            "src/podium_forecasting/adapters/storage.py",
+            "from pathlib import Path\ncontent = Path('snapshot').read_text()",
+        ),
+    ],
+)
+def test_pure_path_operations_and_adapter_owned_effects_pass(
+    path: str, source: str, policy: Policy
+) -> None:
+    assert not list(check_architecture(path, source, policy))
+
+
+def test_effect_check_is_bounded_to_direct_calls(policy: Policy) -> None:
+    source = "from pathlib import Path\nlocation = Path('snapshot')\nlocation.read_text()"
+    assert not list(check_architecture("src/podium_forecasting/domain/race.py", source, policy))
+
+
 def test_relative_imports_in_package_initializers_respect_layers(policy: Policy) -> None:
     assert list(
         check_architecture(

@@ -1,0 +1,42 @@
+[
+  {
+    "questionId": "q5",
+    "url": "https://github.com/TNG/ArchUnit/blob/8b614c6b59d272e92634ce1bbcd430fb0006fe55/README.md",
+    "title": "ArchUnit architecture tests",
+    "sourceType": "repository",
+    "publishedDate": "2026-09-08",
+    "origin": "engagement",
+    "publisher": "TNG/ArchUnit",
+    "notes": "Immutable snapshot at 8b614c6b59d272e92634ce1bbcd430fb0006fe55. Date is snapshot commit/release publication, not original authorship. Full file read, SHA256 78e6650fb8875bdcec76e32a5d3c66df2887df3aa34d9e14f69a51e9a9cca499."
+  },
+  {
+    "questionId": "q3",
+    "url": "https://github.com/semgrep/semgrep-docs/blob/e29c6d6a26b1ef5e96b9fb7985b98fee393e6edb/docs/writing-rules/data-flow/taint-mode/overview.mdx",
+    "title": "Semgrep taint-analysis scope and engine boundaries",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "semgrep/semgrep-docs",
+    "notes": "Immutable snapshot at e29c6d6a26b1ef5e96b9fb7985b98fee393e6edb. Date is snapshot commit/release publication, not original authorship. Full file read, SHA256 412638426879daa106f5d2af37eca210fe7747561636c381c982f6bed5e39885."
+  },
+  {
+    "questionId": "q2",
+    "url": "https://github.com/astral-sh/ruff/blob/0.15.8/crates/ruff_linter/src/rules/flake8_logging_format/violations.rs",
+    "title": "Ruff logging-format rules including G004",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-03-26",
+    "origin": "engagement",
+    "publisher": "astral-sh/ruff",
+    "notes": "Immutable snapshot at 0.15.8. Date is snapshot commit/release publication, not original authorship. Full file read, SHA256 8e4ed2825e9867985ac3183659013e5bc07a2caefd4e188a4dc48bea041183b2."
+  },
+  {
+    "questionId": "q5",
+    "url": "https://github.com/typescript-eslint/typescript-eslint/blob/cd2e3d796b5e18cdaa4ea10fec0b87caaa8db026/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.mdx",
+    "title": "TypeScript ESLint exhaustive handling of union states",
+    "sourceType": "official-docs",
+    "publishedDate": "2026-09-09",
+    "origin": "engagement",
+    "publisher": "typescript-eslint/typescript-eslint",
+    "notes": "Immutable snapshot at cd2e3d796b5e18cdaa4ea10fec0b87caaa8db026. Date is snapshot commit/release publication, not original authorship. Full file read, SHA256 663e6230dcb8884090c79f50ac45e30f35d8d454ab07ebc3c6673e0802fd75b6."
+  }
+]

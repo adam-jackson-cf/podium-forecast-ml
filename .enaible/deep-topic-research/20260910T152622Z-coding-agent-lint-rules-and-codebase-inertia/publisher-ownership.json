@@ -1,0 +1,81 @@
+{
+  "version": "2026-09-10",
+  "ownerGroups": {
+    "openai-astral-conservative": [
+      "OpenAI",
+      "openai.com",
+      "astral-sh/ruff"
+    ],
+    "thoughtworks-fowler": [
+      "Birgitta Boeckeler / Martin Fowler",
+      "martinfowler.com"
+    ],
+    "liu-research-authors": [
+      "Liu et al. / arXiv"
+    ],
+    "leakagedetector-authors": [
+      "LeakageDetector research authors / arXiv"
+    ],
+    "abstract-interpretation-authors": [
+      "Abstract interpretation research authors"
+    ],
+    "metr": [
+      "METR",
+      "metr.org"
+    ],
+    "mypy-maintainers": [
+      "Mypy maintainers",
+      "python/mypy"
+    ],
+    "packagist": [
+      "Private Packagist",
+      "packagist.com"
+    ],
+    "typescript-eslint-maintainers": [
+      "typescript-eslint maintainers",
+      "typescript-eslint/typescript-eslint"
+    ],
+    "import-linter-maintainers": [
+      "seddonym/import-linter"
+    ],
+    "dependency-cruiser-maintainer": [
+      "sverweij/dependency-cruiser"
+    ],
+    "vulture-maintainer": [
+      "jendrikseipp/vulture"
+    ],
+    "wemake": [
+      "wemake-services/wemake-python-styleguide"
+    ],
+    "jscpd-maintainer": [
+      "kucherenko/jscpd"
+    ],
+    "opa-conftest": [
+      "open-policy-agent/conftest"
+    ],
+    "unionai-pandera": [
+      "unionai-oss/pandera"
+    ],
+    "hypothesis-maintainers": [
+      "HypothesisWorks/hypothesis"
+    ],
+    "squawk-maintainer": [
+      "sbdchd/squawk"
+    ],
+    "zizmor-maintainers": [
+      "zizmorcore/zizmor"
+    ],
+    "tng": [
+      "TNG/ArchUnit"
+    ],
+    "semgrep": [
+      "semgrep/semgrep-docs"
+    ],
+    "sqlglot-maintainers": [
+      "tobymao/sqlglot"
+    ],
+    "podium-local": [
+      "Podium local baseline"
+    ]
+  }
+}

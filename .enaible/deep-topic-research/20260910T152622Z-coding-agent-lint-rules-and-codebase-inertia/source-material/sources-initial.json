@@ -1,0 +1,135 @@
+[
+  {
+    "questionId": "q1",
+    "url": "https://openai.com/index/harness-engineering/",
+    "title": "Harness engineering: leveraging Codex in an agent-first world",
+    "sourceType": "industry-report",
+    "publishedDate": "2026-02-11",
+    "origin": "engagement",
+    "publisher": "OpenAI",
+    "searchId": "search-005",
+    "notes": "Original engineering account by Ryan Lopopolo. Mechanically enforces layer boundaries, boundary parsing, naming/logging/size constraints and agent-actionable diagnostics. Describes pattern replication and drift. Explicitly does not know coherence over years. Vendor self-report, not a controlled linter effectiveness trial. Do not adopt its permissive merge/flake policy, which conflicts with this project."
+  },
+  {
+    "questionId": "q1",
+    "url": "https://arxiv.org/abs/2603.28592v2",
+    "title": "Debt Behind the AI Boom: A Large-Scale Empirical Study of AI-Generated Code in the Wild",
+    "sourceType": "academic",
+    "publishedDate": "2026-04-26",
+    "origin": "engagement",
+    "publisher": "Liu et al. / arXiv",
+    "searchId": "search-001",
+    "notes": "Preprint revision v2. Before/after static analysis of attributed AI commits followed over repository history finds persistent issues, dominated by code smells. Observational issue counts are not proof that AI causally worsens maintainability relative to matched human code or that each rule reduces future effort.",
+    "performanceClaim": {
+      "claimType": "measured",
+      "baseline": "Parent commit before each attributed AI-authored commit; issue tracking to latest repository revision, not randomized human comparison",
+      "metricUnit": "static-analysis issue counts and survival proportion",
+      "statement": "Observed code smells and surviving issues; no Podium productivity uplift inferred."
+    }
+  },
+  {
+    "questionId": "q1",
+    "url": "https://martinfowler.com/articles/exploring-gen-ai/harness-engineering-memo.html",
+    "title": "Harness Engineering - first thoughts",
+    "sourceType": "industry-report",
+    "publishedDate": "2026-02-17",
+    "origin": "engagement",
+    "publisher": "Birgitta Boeckeler / Martin Fowler",
+    "searchId": "search-005",
+    "notes": "Original expert interpretation by Thoughtworks engineer of OpenAI account, not independent replication. Separates context, constraints and cleanup; explicitly challenges missing behavioural verification and vendor interest. Supports keeping structural lint and outcome checks separate."
+  },
+  {
+    "questionId": "q6",
+    "url": "https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/",
+    "title": "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity",
+    "sourceType": "academic",
+    "publishedDate": "2025-07-10",
+    "origin": "engagement",
+    "publisher": "METR",
+    "searchId": "search-008",
+    "notes": "Original randomized study of experienced developers on familiar mature repositories using early-2025 tools. Actual completion time and perceived productivity differ. Context-specific evidence for measuring real change outcomes rather than assuming AI speed or rule popularity proves value; does not test proposed linters.",
+    "performanceClaim": {
+      "claimType": "measured",
+      "baseline": "Tasks randomized to AI tools allowed versus not allowed for experienced developers on familiar repositories",
+      "metricUnit": "task completion time",
+      "statement": "Reported slowdown under studied conditions; no generalization to current models or Podium effect size."
+    }
+  },
+  {
+    "questionId": "q3",
+    "url": "https://arxiv.org/abs/2509.15971",
+    "title": "LeakageDetector 2.0: Analyzing Data Leakage in Jupyter-Driven Machine Learning Pipelines",
+    "sourceType": "academic",
+    "publishedDate": "2025-09-19",
+    "origin": "engagement",
+    "publisher": "LeakageDetector research authors / arXiv",
+    "searchId": "search-010",
+    "notes": "Tool research for overlap, preprocessing and multi-test leakage in notebooks. Candidate conceptual source, not yet verified as ready-to-use script/CI checker for Podium. Full method still to inspect."
+  },
+  {
+    "questionId": "q2",
+    "url": "https://mypy-lang.blogspot.com/2025/11/mypy-119-released.html",
+    "title": "Mypy 1.19 Released",
+    "sourceType": "official-docs",
+    "publishedDate": "2025-11-28",
+    "origin": "engagement",
+    "publisher": "Mypy maintainers",
+    "searchId": "search-009",
+    "notes": "Maintainer release documentation. Supports the pinned mypy family; optional checks are separately inspected in versioned docs and the installed 1.19.1 CLI. Do not assume current stable 2.3.1 docs match the baseline."
+  },
+  {
+    "questionId": "q4",
+    "url": "https://blog.packagist.com/securing-our-github-actions-workflows-with-zizmor/",
+    "title": "Securing our GitHub Actions workflows with zizmor",
+    "sourceType": "industry-report",
+    "publishedDate": "2026-07-23",
+    "origin": "engagement",
+    "publisher": "Private Packagist",
+    "searchId": "search-011",
+    "notes": "Original adopter account by Steven Rombauts describing Composer/Packagist workflow hardening and zizmor use. Supports practical adoption plus specific rule families; explicitly says scanner would not catch every token bug. Source is tool user, not independent controlled efficacy trial."
+  },
+  {
+    "questionId": "q5",
+    "url": "https://typescript-eslint.io/blog/avoiding-anys/",
+    "title": "Avoiding anys with Linting and TypeScript",
+    "sourceType": "official-docs",
+    "publishedDate": "2025-01-21",
+    "origin": "engagement",
+    "publisher": "typescript-eslint maintainers",
+    "searchId": "search-013",
+    "notes": "Maintainer explains additional unsafe Any-flow checks beyond compiler noImplicitAny. Provides conceptual transfer to Python typed boundary validation. Does not itself prove Python behavior; paired with actual pinned mypy probe."
+  },
+  {
+    "questionId": "q5",
+    "url": "https://typescript-eslint.io/blog/project-service/",
+    "title": "Typed Linting with Project Service",
+    "sourceType": "official-docs",
+    "publishedDate": "2025-05-29",
+    "origin": "engagement",
+    "publisher": "typescript-eslint maintainers",
+    "searchId": "search-013",
+    "notes": "Maintainer account: typed linting shares type information with editors; separate compiler/linter configuration can diverge. Transfer concept is coherent checker scope/type context rather than introducing TypeScript into Podium."
+  },
+  {
+    "questionId": "q3",
+    "url": "https://caterinaurban.github.io/pdf/scp2025.pdf",
+    "title": "Static Analysis by Abstract Interpretation Against Data Leakage in Machine Learning",
+    "sourceType": "academic",
+    "publishedDate": "2025-05-19",
+    "origin": "engagement",
+    "publisher": "Abstract interpretation research authors",
+    "searchId": "search-010",
+    "notes": "Dated author-hosted manuscript, page1 footer May19 2025. Tracks dataframe feature/data dependencies and preprocessing contamination. Analyze documented scope before treating as turnkey custom pipeline checker. This is separate authorship from LeakageDetector."
+  },
+  {
+    "questionId": "q6",
+    "url": "https://openai.com/index/openai-to-acquire-astral/",
+    "title": "OpenAI to acquire Astral",
+    "sourceType": "industry-report",
+    "publishedDate": "2026-03-19",
+    "origin": "engagement",
+    "publisher": "OpenAI",
+    "searchId": "search-017",
+    "notes": "Ownership-methodology source only. Announcement says acquisition subject to closing conditions and companies independent until closing. Completion not established by this source. Conservatively group OpenAI/Astral together for citation independence; do not claim completed acquisition."
+  }
+]

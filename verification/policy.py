@@ -17,6 +17,9 @@ class Policy:
     allowed_names: frozenset[str]
     package: str
     layers: dict[str, list[str]]
+    restricted_effect_layers: frozenset[str]
+    forbidden_effect_references: frozenset[str]
+    forbidden_effect_calls: frozenset[str]
     locations: dict[str, list[str]]
     max_skill_words: int
     max_role_words: int
@@ -38,6 +41,9 @@ def load_policy(path: Path) -> Policy:
         allowed_names=frozenset(files["allowed_names"]),
         package=str(architecture["package"]),
         layers=cast("dict[str, list[str]]", architecture["allowed"]),
+        restricted_effect_layers=frozenset(architecture["effects"]["restricted_layers"]),
+        forbidden_effect_references=frozenset(architecture["effects"]["forbidden_references"]),
+        forbidden_effect_calls=frozenset(architecture["effects"]["forbidden_calls"]),
         locations=cast("dict[str, list[str]]", files["locations"]),
         max_skill_words=int(document["guidance"]["max_skill_words"]),
         max_role_words=int(document["guidance"]["max_role_words"]),

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "2.0",
+  "repository": "https://github.com/sverweij/dependency-cruiser",
+  "questionIds": [
+    "q1",
+    "q5"
+  ],
+  "commit": "2aa2e34ed8ff8a074588e21603c4fafc0edf6170",
+  "commitDate": "2026-09-09T21:25:22+02:00",
+  "analysis": "CodeGraph indexing/symbol queries plus targeted AST and source inspection; no upstream test suite or build executed.",
+  "files": [
+    {
+      "path": "src/analyze/derive/circular.mjs",
+      "sha256": "d69768d0ade806c948ea40360586e97c7a6196649371fc60eafa4625a35e9681",
+      "lineCount": 81
+    },
+    {
+      "path": "doc/rules-reference.md",
+      "sha256": "6931ddeaa62fe99fdee57bf6f68b3f511366e68362d83d3cc8cd282025cdc428",
+      "lineCount": 1310
+    }
+  ],
+  "codegraphLimitation": "One intentionally invalid symlink fixture test/extract/__mocks__/invalid-symlink/index.js could not be read by CodeGraph. All inspected implementation/doc files were read and hashed; no finding depends on the invalid fixture.",
+  "packageVersion": "18.2.0"
+}

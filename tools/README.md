@@ -10,7 +10,7 @@ export PATH="$PWD/.tools/bin:$PATH"
 
 The committed `tools.lock.json` pins Terraform, TFLint, Trivy, actionlint,
 ShellCheck, Hadolint and Gitleaks for macOS Apple Silicon and Linux x86-64.
-Python quality tools are pinned separately by `pyproject.toml` and `uv.lock`.
+Python quality tools, including Import Linter and zizmor, are pinned separately by `pyproject.toml` and `uv.lock`. `uv sync --frozen` installs them; the bootstrap does not download them.
 Other operating systems and architectures fail explicitly.
 
 The bootstrap downloads official versioned release artifacts, verifies their
@@ -20,6 +20,8 @@ cached downloads are verified on every run, allowing a subsequent offline run.
 A checksum mismatch fails without replacing an existing installed executable;
 inspect and explicitly remove the corrupt cache artifact before retrying.
 The bootstrap does not execute downloaded programs. Fast checks execute them.
+
+Docker and its Compose plugin are host prerequisites rather than bootstrap-managed tools. The external-contract stage uses Compose only to render every profile for static validation; a running Docker daemon is required for the slow seam, not for that render.
 
 `.tools/bin` and `.tools/downloads` are local ignored outputs. Each download
 uses an HTTPS connection with a 30-second socket timeout, a bounded response

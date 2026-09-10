@@ -1,0 +1,43 @@
+[
+  {
+    "repository": "fpgmaas/deptry",
+    "path": "docs/docs/rules.md",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "repository": "jendrikseipp/vulture",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/jendrikseipp/vulture/2c21cb0ae2afa657e36f6a397cb573608a65d79e/README.md",
+    "sha256": "67bf0989cf15370a9e9a66232bf2c36ede571b2c5bc625ae4162ae3f92a42535"
+  },
+  {
+    "repository": "wemake-services/wemake-python-styleguide",
+    "path": "wemake_python_styleguide/violations/complexity.py",
+    "url": "https://raw.githubusercontent.com/wemake-services/wemake-python-styleguide/6e0b6b4c33c409a197d651f0dcfeced6798479c0/wemake_python_styleguide/violations/complexity.py",
+    "sha256": "4317beb156dd18af5b25e532c5f0c783b597da3d58deed692021ee26c1277228"
+  },
+  {
+    "repository": "kucherenko/jscpd",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/kucherenko/jscpd/0f8785f42332af310b7712e2d772f78fe6944758/README.md",
+    "sha256": "494b8352cae459a7a8f08e20235c09c0782689c6d9c15f1b9287487ed00f5cc1"
+  },
+  {
+    "repository": "open-policy-agent/conftest",
+    "path": "docs/index.md",
+    "url": "https://raw.githubusercontent.com/open-policy-agent/conftest/fc7d7d7df851eae01067ac9a7064774722a5fb4c/docs/index.md",
+    "sha256": "51896012b4973d6b29678492be186392854765191604713dafbb1a8c363f91a8"
+  },
+  {
+    "repository": "pandera-dev/pandera",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/unionai-oss/pandera/8ecdd0df0eb48bf3c53dc0be56e22647101fd516/README.md",
+    "sha256": "cbe2f43b6dba825ebf0bfee73e12d48f490b103da9c346c005d90e1010c53847"
+  },
+  {
+    "repository": "HypothesisWorks/hypothesis",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/HypothesisWorks/hypothesis/cd434f23be1a3598085cf096e28e6738c63b29b3/README.md",
+    "sha256": "bdea363861e973606d7728f0b7b893e0eb3efa2b3d8afa21a139d3ec8e80c003"
+  }
+]

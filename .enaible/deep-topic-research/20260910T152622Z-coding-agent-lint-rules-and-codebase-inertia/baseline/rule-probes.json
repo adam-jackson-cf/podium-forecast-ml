@@ -1,0 +1,248 @@
+{
+  "scope": "Synthetic differential fixtures, not Podium product defects. Initial logged-failure fixture import spacing triggered I001; spacing corrected before behavioral comparison without disabling any rule.",
+  "cases": [
+    {
+      "case": "broad_failure",
+      "fixture": "def parse_count(text: str) -> int:\n    try:\n        return int(text)\n    except Exception:\n        return 0\n",
+      "baseline": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/broad_failure.py"
+        ],
+        "exitCode": 0,
+        "stdout": "[]",
+        "stderr": ""
+      },
+      "candidate": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/broad_failure.py",
+          "--extend-select",
+          "BLE001"
+        ],
+        "exitCode": 1,
+        "stdout": "[\n  {\n    \"cell\": null,\n    \"code\": \"BLE001\",\n    \"end_location\": {\n      \"column\": 21,\n      \"row\": 4\n    },\n    \"filename\": \"/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/broad_failure.py\",\n    \"fix\": null,\n    \"location\": {\n      \"column\": 12,\n      \"row\": 4\n    },\n    \"message\": \"Do not catch blind exception: `Exception`\",\n    \"noqa_row\": 4,\n    \"severity\": \"error\",\n    \"url\": \"https://docs.astral.sh/ruff/rules/blind-except\"\n  }\n]",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "logged_failure",
+      "fixture": "import logging\n\n\ndef parse_count(text: str) -> int:\n    try:\n        return int(text)\n    except Exception:\n        logging.exception(\"Parsing failed\")\n        return 0\n",
+      "baseline": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/logged_failure.py"
+        ],
+        "exitCode": 0,
+        "stdout": "[]",
+        "stderr": ""
+      },
+      "candidate": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/logged_failure.py",
+          "--extend-select",
+          "BLE001"
+        ],
+        "exitCode": 0,
+        "stdout": "[]",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "naive_clock",
+      "fixture": "from datetime import datetime\n\n\ndef cutoff() -> datetime:\n    return datetime.now()\n",
+      "baseline": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/naive_clock.py"
+        ],
+        "exitCode": 0,
+        "stdout": "[]",
+        "stderr": ""
+      },
+      "candidate": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/naive_clock.py",
+          "--extend-select",
+          "DTZ005"
+        ],
+        "exitCode": 1,
+        "stdout": "[\n  {\n    \"cell\": null,\n    \"code\": \"DTZ005\",\n    \"end_location\": {\n      \"column\": 26,\n      \"row\": 5\n    },\n    \"filename\": \"/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/naive_clock.py\",\n    \"fix\": null,\n    \"location\": {\n      \"column\": 12,\n      \"row\": 5\n    },\n    \"message\": \"`datetime.datetime.now()` called without a `tz` argument\",\n    \"noqa_row\": 5,\n    \"severity\": \"error\",\n    \"url\": \"https://docs.astral.sh/ruff/rules/call-datetime-now-without-tzinfo\"\n  }\n]",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "any_boundary",
+      "fixture": "import json\n\n\ndef read_id(text: str) -> int:\n    payload = json.loads(text)\n    runner_id: int = payload[\"runner_id\"]\n    return runner_id\n",
+      "baseline": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/mypy",
+          "--config-file",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--cache-dir",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/cache",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/any_boundary.py"
+        ],
+        "exitCode": 0,
+        "stdout": "Success: no issues found in 1 source file\n",
+        "stderr": ""
+      },
+      "candidate": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/mypy",
+          "--config-file",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--cache-dir",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/cache",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/any_boundary.py",
+          "--disallow-any-expr"
+        ],
+        "exitCode": 1,
+        "stdout": "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/any_boundary.py:5: error: Expression has type \"Any\"  [misc]\n/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/any_boundary.py:6: error: Expression has type \"Any\"  [misc]\nFound 2 errors in 1 file (checked 1 source file)\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "discarded_awaitable",
+      "fixture": "from collections.abc import Awaitable\n\n\ndef produce() -> Awaitable[int]:\n    raise ValueError(\"Fixture only\")\n\n\ndef discard() -> None:\n    produce()\n",
+      "baseline": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/mypy",
+          "--config-file",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--cache-dir",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/cache",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/discarded_awaitable.py"
+        ],
+        "exitCode": 0,
+        "stdout": "Success: no issues found in 1 source file\n",
+        "stderr": ""
+      },
+      "candidate": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/mypy",
+          "--config-file",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--cache-dir",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/cache",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/discarded_awaitable.py",
+          "--enable-error-code",
+          "unused-awaitable"
+        ],
+        "exitCode": 1,
+        "stdout": "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/discarded_awaitable.py:9: error: Value of type \"Awaitable[int]\" must be used  [unused-awaitable]\n/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/discarded_awaitable.py:9: note: Are you missing an await?\nFound 1 error in 1 file (checked 1 source file)\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "same-layer dependency cycle",
+      "baselineArchitectureFindings": 0,
+      "cyclic": {
+        "command": [
+          "uv",
+          "tool",
+          "run",
+          "--from",
+          "import-linter==2.15",
+          "lint-imports",
+          "--config",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/graph/pyproject.toml",
+          "--no-logo",
+          "--no-cache"
+        ],
+        "exitCode": 1,
+        "stdout": "\n---------\nContracts\n---------\n\nAnalyzed 4 files, 2 dependencies.\n---------------------------------\n\nNo sibling cycles BROKEN\n\nContracts: 0 kept, 1 broken.\n\n\n----------------\nBroken contracts\n----------------\n\nNo sibling cycles\n-----------------\n\nNo cycles are allowed in podium_forecasting.domain.\nIt could be made acyclic by removing 1 dependency:\n\n- .beta -> .alpha (1 import)\n\n",
+        "stderr": ""
+      },
+      "acyclic": {
+        "command": [
+          "uv",
+          "tool",
+          "run",
+          "--from",
+          "import-linter==2.15",
+          "lint-imports",
+          "--config",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/graph/pyproject.toml",
+          "--no-logo",
+          "--no-cache"
+        ],
+        "exitCode": 0,
+        "stdout": "\n---------\nContracts\n---------\n\nAnalyzed 4 files, 1 dependencies.\n---------------------------------\n\nNo sibling cycles KEPT\n\nContracts: 1 kept, 0 broken.\n",
+        "stderr": ""
+      },
+      "fixtures": {
+        "alpha": "from podium_forecasting.domain import beta\n\n\ndef alpha_name() -> str:\n    return str(beta)\n",
+        "beta": "from podium_forecasting.domain import alpha\n\n\ndef beta_name() -> str:\n    return str(alpha)\n"
+      }
+    },
+    {
+      "case": "standard-library effects bypass pure-layer intent",
+      "fixture": "from urllib.request import urlopen\n\n\ndef fetch() -> None:\n    with urlopen(\"https://example.org\", timeout=10) as response:\n        response.read()\n",
+      "baselineArchitectureFindings": 0,
+      "baseline": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/domain_effect.py"
+        ],
+        "exitCode": 0,
+        "stdout": "[]"
+      },
+      "candidate": {
+        "command": [
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/.venv/bin/ruff",
+          "check",
+          "--config",
+          "/Users/adamjackson/Projects/inflight/podium-forecastin-ml/pyproject.toml",
+          "--output-format",
+          "json",
+          "/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/domain_effect.py",
+          "--extend-select",
+          "TID251",
+          "--config",
+          "lint.flake8-tidy-imports.banned-api.\"urllib.request.urlopen\".msg = \"Use the owned network adapter.\""
+        ],
+        "exitCode": 1,
+        "stdout": "[\n  {\n    \"cell\": null,\n    \"code\": \"TID251\",\n    \"end_location\": {\n      \"column\": 35,\n      \"row\": 1\n    },\n    \"filename\": \"/var/folders/mm/8xs8r41n60bg449p69zmmy3h0000gn/T/podium-lint-research-0bsmhei2/probes/domain_effect.py\",\n    \"fix\": null,\n    \"location\": {\n      \"column\": 28,\n      \"row\": 1\n    },\n    \"message\": \"`urllib.request.urlopen` is banned: Use the owned network adapter.\",\n    \"noqa_row\": 1,\n    \"severity\": \"error\",\n    \"url\": \"https://docs.astral.sh/ruff/rules/banned-api\"\n  }\n]"
+      },
+      "scope": "Synthetic fixture only. No request executed; static checks only. HTTPS literal keeps this probe focused on architecture rather than arbitrary-URL security."
+    }
+  ]
+}

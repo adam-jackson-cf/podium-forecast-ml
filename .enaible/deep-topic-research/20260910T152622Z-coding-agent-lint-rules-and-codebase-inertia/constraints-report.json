@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "2.0",
+  "checkedAt": "2026-09-10T15:55:01.285022Z",
+  "status": "pass",
+  "items": [
+    {
+      "constraintId": "six-thematic-findings",
+      "entity": "finding",
+      "rule": "min-count",
+      "status": "pass",
+      "issues": [],
+      "matchedCount": 6,
+      "totalCount": 6
+    },
+    {
+      "constraintId": "decision-ready-findings",
+      "entity": "finding",
+      "rule": "required-fields",
+      "status": "pass",
+      "issues": [],
+      "matchedCount": 6,
+      "totalCount": 6
+    }
+  ]
+}

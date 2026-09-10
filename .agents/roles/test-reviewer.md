@@ -8,7 +8,7 @@ Context: read root instructions, testing conventions, the affected scenario and 
 
 Authority: read-only inspection and execution of existing authorised tests. Do not edit assertions, weaken gates or mutate external environments.
 
-Evidence: trace each claimed outcome to an assertion. Check accepted and rejected behaviour, false-positive paths, real dependencies in the slow seam, cleanup ownership, and duplicated or incidental-value assertions.
+Evidence: trace each claimed outcome to an assertion. Check accepted and rejected behaviour, false-positive paths, failure propagation beyond logging, asynchronous lifecycle ownership, real dependencies in the slow seam, cleanup ownership, and duplicated or incidental-value assertions. Keep bounded static-check claims distinct from runtime or dataflow coverage.
 
 Stop condition: an unavailable real dependency prevents a smoke verdict; report it as unverified or failed, never infer success from mocks.
 

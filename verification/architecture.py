@@ -61,3 +61,80 @@ def check_architecture(path: str, source: str, policy: Policy) -> Iterable[Findi
         message = violation(target, layer, policy)
         if message:
             yield Finding(path, line, "ARCH002", message)
+    if layer in policy.restricted_effect_layers:
+        yield from check_known_effects(path, tree, policy)
+
+
+def check_known_effects(path: str, tree: ast.AST, policy: Policy) -> Iterable[Finding]:
+    """Reject configured direct effect calls, including imported API aliases."""
+    aliases = imported_aliases(tree)
+    yield from forbidden_reference_findings(path, tree, aliases, policy)
+    yield from forbidden_call_findings(path, tree, aliases, policy)
+
+
+def forbidden_call_findings(
+    path: str, tree: ast.AST, aliases: dict[str, str], policy: Policy
+) -> Iterable[Finding]:
+    """Report calls to configured effectful APIs."""
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        target = called_name(node.func, aliases)
+        if target in policy.forbidden_effect_calls:
+            yield Finding(
+                path,
+                node.lineno,
+                "ARCH003",
+                f"{target} performs IO; move this capability behind a port and into an adapter.",
+            )
+
+
+def forbidden_reference_findings(
+    path: str, tree: ast.AST, aliases: dict[str, str], policy: Policy
+) -> Iterable[Finding]:
+    """Report configured effectful objects such as the process environment."""
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Name, ast.Attribute)):
+            continue
+        target = called_name(node, aliases)
+        if target in policy.forbidden_effect_references:
+            yield Finding(
+                path,
+                node.lineno,
+                "ARCH003",
+                f"{target} performs IO; move this capability behind a port and into an adapter.",
+            )
+
+
+def imported_aliases(tree: ast.AST) -> dict[str, str]:
+    """Map names introduced by direct import statements to qualified APIs."""
+    aliases: dict[str, str] = {}
+    for node in ast.walk(tree):
+        aliases.update(imported_aliases_at_node(node))
+    return aliases
+
+
+def imported_aliases_at_node(node: ast.AST) -> dict[str, str]:
+    """Resolve the local bindings created by one import statement."""
+    if isinstance(node, ast.Import):
+        return {
+            alias.asname or alias.name.split(".")[0]: (
+                alias.name if alias.asname else alias.name.split(".")[0]
+            )
+            for alias in node.names
+        }
+    if isinstance(node, ast.ImportFrom) and node.module:
+        return {alias.asname or alias.name: f"{node.module}.{alias.name}" for alias in node.names}
+    return {}
+
+
+def called_name(node: ast.AST, aliases: dict[str, str]) -> str | None:
+    """Resolve a direct imported call without following assigned object aliases."""
+    if isinstance(node, ast.Name):
+        return aliases.get(node.id, f"builtins.{node.id}")
+    if isinstance(node, ast.Attribute):
+        owner = called_name(node.value, aliases)
+        return f"{owner}.{node.attr}" if owner else None
+    if isinstance(node, ast.Call):
+        return called_name(node.func, aliases)
+    return None

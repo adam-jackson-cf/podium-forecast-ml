@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "2.0",
+  "status": "pass",
+  "sources": 41,
+  "questions": 6,
+  "findings": 6,
+  "candidateRules": 23,
+  "searchQueriesRendered": 20,
+  "repositorySignals": 17,
+  "checks": {
+    "everySearchRendered": true,
+    "everyFindingRendered": true,
+    "everyCandidateRendered": true,
+    "allCandidateCitationsResolve": true,
+    "localArtifactLinksResolve": true,
+    "nonemptyLinkInventory": true,
+    "externalCitationsMatchRegistry": true,
+    "allUpstreamAuditsPass": true,
+    "allFindingsHaveThreeSources": true,
+    "externalIndependenceWithoutLocalInventory": true,
+    "baselineControlsUnchanged": true
+  },
+  "rendererCorrection": "Populated Appendix A by passing canonical evidence to the unchanged installed helper; no evidence alias or validator changes.",
+  "originalRenderedSha256": "91783866fdc53009c1d6b3a718d1d68b8e8adf3c34066414cc0116824560fecc",
+  "reportSha256": "3ddb572ecc3b97033302bb7a2b94d98a119d0eaaf26dbbf5b143b0eb842dfd77",
+  "linkCount": 154,
+  "localLinkCount": 44,
+  "reportWords": 5234,
+  "matrixWords": 3772,
+  "notes": "Initial render-link regex was over-escaped and emitted a FutureWarning; corrected parser now asserts a populated link inventory, validates local targets and checks every external citation against evidence.json. No warning was suppressed.",
+  "externalIndependence": [
+    {
+      "finding": "f1",
+      "externalSources": 5,
+      "publisherDomains": 4,
+      "ownerGroups": 5
+    },
+    {
+      "finding": "f2",
+      "externalSources": 9,
+      "publisherDomains": 3,
+      "ownerGroups": 4
+    },
+    {
+      "finding": "f3",
+      "externalSources": 9,
+      "publisherDomains": 3,
+      "ownerGroups": 8
+    },
+    {
+      "finding": "f4",
+      "externalSources": 5,
+      "publisherDomains": 2,
+      "ownerGroups": 4
+    },
+    {
+      "finding": "f5",
+      "externalSources": 10,
+      "publisherDomains": 2,
+      "ownerGroups": 6
+    },
+    {
+      "finding": "f6",
+      "externalSources": 8,
+      "publisherDomains": 2,
+      "ownerGroups": 5
+    }
+  ]
+}

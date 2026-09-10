@@ -13,6 +13,8 @@ docker compose -f infra/local/compose.yaml up --build --wait
 
 The stack uses its container network and exposes no host UI ports. Generated local credentials must remain ignored and must not be printed or copied into committed configuration. Use the single smoke entrypoint in the root README for disposable verification.
 
+The fast gate separately renders every Compose profile and checks the effective JSON without starting services. This requires the Docker CLI and Compose plugin, but not a running daemon. It uses the normal Docker client configuration and preserves an existing process-level `DOCKER_CONFIG`; keep any selected configuration directory private. Use `scripts/check-contracts.sh` from the repository root when running that external-contract stage alone.
+
 To stop the persistent stack while retaining its volumes:
 
 ```sh

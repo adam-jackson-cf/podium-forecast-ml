@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "2.0",
+  "repository": "https://github.com/seddonym/import-linter",
+  "questionIds": [
+    "q2",
+    "q5"
+  ],
+  "commit": "31927f1457e3df673912cb5efb0afa6dbc37585f",
+  "commitDate": "2026-09-04T15:45:09+01:00",
+  "analysis": "CodeGraph indexing/symbol queries plus targeted AST and source inspection; no upstream test suite or build executed.",
+  "files": [
+    {
+      "path": "src/importlinter/contracts/acyclic_siblings.py",
+      "sha256": "5bebdf20206749dec7af8b99260d4672727ffb2ae5b3e5e781c67d61830d1d1f",
+      "lineCount": 214,
+      "classes": [
+        "PackageSummary",
+        "Dependency",
+        "AcyclicSiblingsContract"
+      ],
+      "functionCount": 8
+    },
+    {
+      "path": "src/importlinter/contracts/layers.py",
+      "sha256": "c19e02b54919932414c5199aee35b31b3054b797ebc75339493d78aea6af95d1",
+      "lineCount": 313,
+      "classes": [
+        "ModuleTail",
+        "Layer",
+        "LayerField",
+        "_LayerChainData",
+        "LayersContract"
+      ],
+      "functionCount": 14
+    },
+    {
+      "path": "docs/contract_types/acyclic_siblings.md",
+      "sha256": "775fdd2365c0ab4046b13714cb7322bf4cbd84f3871ed33a03664e07a16f9142",
+      "lineCount": 118
+    }
+  ]
+}

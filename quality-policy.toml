@@ -1,0 +1,32 @@
+[python]
+max_loop_depth = 1
+forbidden_names = ["manager", "helper", "helpers", "util", "utils", "data", "thing", "processor", "common", "misc"]
+
+[files]
+ignored_directories = [".git", ".venv", ".mypy_cache", ".pytest_cache", ".ruff_cache", "__pycache__", "htmlcov", ".terraform", ".tools", ".codegraph", ".local", ".local-runtime"]
+allowed_suffixes = [".py", ".toml", ".lock", ".md", ".yml", ".yaml", ".json", ".tf", ".tfvars", ".hcl", ".sh", ".sql", ".ini", ".txt", ".Dockerfile"]
+allowed_names = ["Dockerfile", "Makefile", ".gitignore", ".dockerignore", ".sqlfluffignore", ".python-version", ".coverage", "LICENSE"]
+
+[architecture]
+package = "podium_forecasting"
+layers = ["domain", "ports", "application", "adapters", "entrypoints"]
+
+[architecture.allowed]
+domain = ["domain"]
+ports = ["domain", "ports"]
+application = ["domain", "ports", "application"]
+adapters = ["domain", "ports", "adapters"]
+entrypoints = ["domain", "ports", "application", "adapters", "entrypoints"]
+
+[files.locations]
+".sh" = ["scripts"]
+"Dockerfile" = ["containers"]
+".Dockerfile" = ["containers"]
+".tf" = ["infra/terraform/modules/storage"]
+".tfvars" = ["infra/terraform/modules/storage/tests/security.tfvars"]
+".hcl" = [".tflint.hcl", "infra/terraform/modules/storage/.terraform.lock.hcl", "infra/terraform/modules/storage/tests/*.tftest.hcl"]
+
+[guidance]
+max_skill_words = 1000
+max_role_words = 600
+role_fields = ["Objective", "Context", "Authority", "Evidence", "Stop condition", "Output"]

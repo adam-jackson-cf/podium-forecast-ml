@@ -1,0 +1,13 @@
+.git
+.venv
+.local
+.local-runtime
+**/__pycache__
+.pytest_cache
+.mypy_cache
+.ruff_cache
+**/.terraform
+**/*.tfstate*
+**/*.tfplan
+.tools
+.codegraph

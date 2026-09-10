@@ -1,0 +1,13 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated dependencies and isolated local runtime are outside maintained source."
+paths = [
+  '''^\.venv/''',
+  '''^\.tools/''',
+  '''^\.local/''',
+  '''^\.local-runtime/''',
+  '''^\.codegraph/''',
+  '''(^|/)\.terraform/''',
+]

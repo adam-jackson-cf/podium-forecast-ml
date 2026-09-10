@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "podium-forecasting-ml"
+version = "0.1.0"
+description = "Verified foundation for the Podium forecasting pipeline"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "ruff==0.15.8",
+  "mypy==1.19.1",
+  "pytest==8.4.2",
+  "pytest-cov==6.2.1",
+  "pre-commit==4.5.1",
+  "pyyaml==6.0.3",
+  "types-pyyaml==6.0.12.20250915",
+  "sqlfluff==3.4.2",
+  "yamllint==1.37.1",
+  "boto3==1.42.49",
+  "boto3-stubs[s3]==1.42.49",
+  "psycopg[binary]==3.2.10",
+  "mlflow==3.10.1",
+  "pyarrow==23.0.1",
+  "pyarrow-stubs==20.0.0.20251215",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/podium_forecasting"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "N", "SIM", "C4", "C90", "PLR", "RUF", "T20", "RET", "ARG", "PTH", "S"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 8
+
+[tool.ruff.lint.pylint]
+max-args = 5
+max-branches = 8
+max-statements = 40
+max-returns = 6
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+show_error_codes = true
+explicit_package_bases = true
+mypy_path = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/integration"]
+pythonpath = ["."]
+addopts = "--strict-config --strict-markers -ra"
+filterwarnings = ["error"]
+markers = ["seam: explicitly invoked container journey verification"]
+
+[tool.coverage.run]
+branch = true
+source = ["verification"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
+
+[tool.sqlfluff.core]
+dialect = "postgres"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S603"]

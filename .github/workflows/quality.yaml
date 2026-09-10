@@ -1,0 +1,20 @@
+name: Quality
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  fast:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: astral-sh/setup-uv@e92bafb6253dcd438e0484186d7669ea7a8ca1cc
+        with:
+          version: '0.10.0'
+          python-version: '3.12'
+      - run: uv sync --frozen
+      - run: uv run --frozen python scripts/bootstrap_tools.py
+      - run: scripts/fast-checks.sh

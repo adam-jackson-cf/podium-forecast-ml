@@ -1,0 +1,72 @@
+name: podium-forecastin-ml
+services:
+  postgres:
+    image: postgres:17.7-bookworm@sha256:86e0b703649d7a792bd9243ee28afc9d8f7c6b2b5638077c9d6882d4d472bbfd
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    networks: [foundation]
+  object-store:
+    image: chrislusf/seaweedfs:4.46@sha256:08d516132314207d10c8e37cbffc1f32b147d870169688734cc61c6231625b62
+    command:
+      - server
+      - -ip=object-store
+      - -dir=/data
+      - -s3
+      - -s3.config=/run/secrets/s3_config
+    secrets: [s3_config]
+    volumes:
+      - objects:/data
+    networks: [foundation]
+  mlflow:
+    image: podium-foundation:${FOUNDATION_IMAGE_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: containers/foundation.Dockerfile
+    command: [uv, run, --no-sync, python, scripts/start_mlflow.py]
+    secrets: [postgres_password, s3_config]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      object-store:
+        condition: service_started
+    healthcheck:
+      test:
+        - CMD
+        - uv
+        - run
+        - --no-sync
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://mlflow:5000/health')"
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    networks: [foundation]
+  seam:
+    image: podium-foundation:${FOUNDATION_IMAGE_TAG:-local}
+    command: [uv, run, --no-sync, pytest, tests/seams, -v, -o, cache_dir=/tmp/pytest-cache]
+    secrets: [postgres_password, s3_config]
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    profiles: [verification]
+    networks: [foundation]
+secrets:
+  postgres_password:
+    file: ${LOCAL_SECRETS_DIR:-../../.local-runtime}/postgres_password
+  s3_config:
+    file: ${LOCAL_SECRETS_DIR:-../../.local-runtime}/s3_config.json
+volumes:
+  postgres:
+  objects:
+networks:
+  foundation:
+    internal: true

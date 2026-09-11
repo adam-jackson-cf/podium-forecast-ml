@@ -16,3 +16,5 @@ crash.log
 .DS_Store
 .codegraph/
 .tools/
+.clawpatch/
+node_modules/

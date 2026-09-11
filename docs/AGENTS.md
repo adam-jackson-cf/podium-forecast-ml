@@ -1,3 +1,6 @@
-# Documentation scope
+# Documentation instructions
 
-Keep human setup, operating commands and verification procedures in `README.md` files. The explicitly requested `local-solution-assessment.md` records architecture options, source provenance and decisions. Preserve distinctions between report evidence, recommendations and implemented state. Never turn a planned capability into a completion claim.
+- If local pipeline architecture changes, **ALWAYS** record its options, source provenance, and decision in `local-solution-assessment.md`.
+- **ALWAYS** label report evidence, recommendations, planned capabilities, and implemented state so readers can distinguish them.
+- **NEVER** describe a planned capability as implemented.
+- **NEVER** describe an unexecuted check as passing.

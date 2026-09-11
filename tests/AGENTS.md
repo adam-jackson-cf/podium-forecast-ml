@@ -1,3 +1,5 @@
-# Test scope
+# Test instructions
 
-Load `.agents/skills/testing-conventions/SKILL.md` from the repository root. Protect behavioural rules and observable outcomes, including rejection paths and false-positive paths for bounded static checks. Extend the single opt-in slow seam when real pipeline capabilities are implemented. Never replace its real dependencies with mocks or convert missing prerequisites to skipped success.
+- **ALWAYS** place fast behavioural tests under `tests/unit` or `tests/integration`.
+- **ALWAYS** place the real-service journey under `tests/seams` and invoke it through `scripts/slow-seam.sh`.
+- If a real pipeline stage is added, **ALWAYS** extend the existing slow journey; **NEVER** add a parallel smoke entrypoint.

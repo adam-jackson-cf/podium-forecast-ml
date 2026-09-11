@@ -1,0 +1,8 @@
+{
+  "name": "podium-forecasting-ml-ci-tools",
+  "private": true,
+  "devDependencies": {
+    "@openai/codex": "0.154.0",
+    "clawpatch": "0.8.0"
+  }
+}

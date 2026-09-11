@@ -1,0 +1,61 @@
+name: Clawpatch review
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        description: Base branch or ref for changed-feature review
+        required: true
+        default: main
+        type: string
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: clawpatch-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Advisory semantic review
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+      contains(github.event.pull_request.labels.*.name, 'clawpatch'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CLAWPATCH_BASE_REF: ${{ github.base_ref || inputs.base_ref || 'main' }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24.8.0'
+          cache: npm
+      - name: Install locked review tools
+        run: npm ci --ignore-scripts
+      - name: Verify Clawpatch provider
+        run: npx --no-install clawpatch doctor
+      - name: Review changed features
+        run: >-
+          npx --no-install clawpatch ci
+          --since "origin/${CLAWPATCH_BASE_REF}"
+          --limit 10
+          --jobs 2
+          --rate-limit-per-minute 10
+          --output clawpatch-report.md
+      - name: Upload review report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: clawpatch-report
+          path: clawpatch-report.md
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,9 +1,8 @@
 [python]
 max_loop_depth = 1
-forbidden_names = ["manager", "helper", "helpers", "util", "utils", "data", "thing", "processor", "common", "misc"]
 
 [files]
-ignored_directories = [".git", ".venv", ".mypy_cache", ".pytest_cache", ".ruff_cache", "__pycache__", "htmlcov", ".terraform", ".tools", ".codegraph", ".local", ".local-runtime"]
+ignored_directories = [".git", ".venv", ".mypy_cache", ".pytest_cache", ".ruff_cache", "__pycache__", "htmlcov", ".terraform", ".tools", ".codegraph", ".local", ".local-runtime", ".clawpatch", "node_modules"]
 allowed_suffixes = [".py", ".toml", ".lock", ".md", ".yml", ".yaml", ".json", ".tf", ".tfvars", ".hcl", ".sh", ".sql", ".ini", ".txt", ".Dockerfile"]
 allowed_names = ["Dockerfile", "Makefile", ".gitignore", ".dockerignore", ".sqlfluffignore", ".python-version", ".coverage", "LICENSE"]
 
@@ -70,5 +69,5 @@ forbidden_calls = [
 
 [guidance]
 max_skill_words = 1000
-max_role_words = 600
-role_fields = ["Objective", "Context", "Authority", "Evidence", "Stop condition", "Output"]
+max_skill_lines = 100
+max_agent_words = 600

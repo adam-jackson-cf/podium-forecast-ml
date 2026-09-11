@@ -7,8 +7,8 @@ The intended path is portable Python container jobs first, optional SageMaker lo
 ## Structure
 
 ```text
-.agents/skills/        Selective Python, testing and infrastructure guidance
-.agents/roles/         On-demand implementation and review briefs
+agent-guidance/skills/ Conditional Python, testing and infrastructure guidance
+agent-guidance/agents/ On-demand implementation and review contracts
 containers/           Locked foundation runtime image
 infra/local/          PostgreSQL, S3-compatible storage and MLflow Compose stack
 infra/terraform/      AWS infrastructure modules and native configuration tests
@@ -66,7 +66,7 @@ For a persistent local service stack, see [infrastructure operation](infra/READM
 
 ## Contribution boundaries
 
-Root and scoped `AGENTS.md` files guide coding agents. User-facing procedures live in README files. Small skills and role briefs are loaded only when relevant; role briefs are not registered runtime agents.
+Root and scoped `AGENTS.md` files are loaded by coding agents according to directory scope. The root condition table identifies additional guidance to read for a matching task. Files under `agent-guidance/agents/` are on-demand contracts for assigning an agent; this repository does not register them as runtime custom agents. User-facing procedures live in README files.
 
 `quality-policy.toml` and `pyproject.toml` are authoritative for numeric limits, naming constraints, import rules and enabled checks. Do not duplicate thresholds in guidance or weaken a gate to accept a change. A new executable language requires its corresponding verification layer before implementation.
 

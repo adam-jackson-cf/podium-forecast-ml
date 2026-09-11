@@ -46,16 +46,6 @@ def test_nested_iteration_requires_decomposition(source: str, policy: Policy) ->
     assert {finding.rule for finding in check_python("scores.py", source, policy)} == {"PY001"}
 
 
-@pytest.mark.parametrize("name", ["RaceManager", "helper", "prepare_data", "ForecastProcessor"])
-def test_generic_declarations_require_specific_responsibilities(name: str, policy: Policy) -> None:
-    assert list(check_python("scores.py", f"def {name}():\n    pass", policy))
-
-
-@pytest.mark.parametrize("name", ["RaceSnapshot", "calculate_probability", "DatasetManifest"])
-def test_specific_declarations_pass(name: str, policy: Policy) -> None:
-    assert not list(check_python("scores.py", f"class {name}:\n    pass", policy))
-
-
 @pytest.mark.parametrize(
     ("layer", "source"),
     [
@@ -117,9 +107,11 @@ def test_generated_environments_are_not_maintained_sources(tmp_path: Path, polic
     assert not check_repository(tmp_path, policy)
 
 
-def test_generic_module_names_are_rejected(tmp_path: Path, policy: Policy) -> None:
-    (tmp_path / "utils.py").write_text("", encoding="utf-8")
-    assert {finding.rule for finding in check_repository(tmp_path, policy)} == {"PY002"}
+def test_naming_guidance_is_not_a_static_gate(tmp_path: Path, policy: Policy) -> None:
+    (tmp_path / "utils.py").write_text(
+        "def prepare_data(data):\n    return data\n", encoding="utf-8"
+    )
+    assert not check_repository(tmp_path, policy)
 
 
 def test_invalid_syntax_cannot_pass(policy: Policy) -> None:
@@ -216,11 +208,6 @@ def test_relative_imports_in_package_initializers_respect_layers(policy: Policy)
 )
 def test_aliases_cannot_hide_test_bypasses(source: str) -> None:
     assert list(check_test_bypass("test_scores.py", source))
-
-
-@pytest.mark.parametrize("source", ["data = []", "def calculate(data):\n    return data"])
-def test_owned_bindings_must_name_their_content(source: str, policy: Policy) -> None:
-    assert list(check_python("scores.py", source, policy))
 
 
 @pytest.mark.parametrize(

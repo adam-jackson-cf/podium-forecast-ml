@@ -48,8 +48,6 @@ def check_file(path: Path, root: Path, policy: Policy) -> Iterable[Finding]:
     if path.suffix != ".py":
         yield from check_configuration_comments(path, relative)
         return
-    if path.stem in policy.forbidden_names:
-        yield Finding(relative, 1, "PY002", "Name the module for its specific responsibility.")
     source = path.read_text(encoding="utf-8")
     yield from check_comments(relative, source)
     yield from check_python(relative, source, policy)

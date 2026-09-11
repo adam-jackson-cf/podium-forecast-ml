@@ -22,7 +22,7 @@ The [coding-agent linting and codebase inertia report](../.enaible/deep-topic-re
 
 | Area | Available foundation | Not established by this scaffold |
 | --- | --- | --- |
-| Agent guidance | Short root routing, scoped instructions, three focused skills and role briefs | Runtime registration of custom agents |
+| Agent guidance | Root conditional routing, scoped instructions, three focused skills and three on-demand agent contracts | Runtime registration of custom agents |
 | Python design | Typed package boundaries and executable quality policy | Extraction, features, training, evaluation or prediction |
 | Local services | PostgreSQL, S3-compatible storage and MLflow configuration | Nexus schema, approved production extracts or Aurora parity |
 | AWS IaC | Terraform storage configuration with native assertions | Applied AWS environment or permission/network correctness |

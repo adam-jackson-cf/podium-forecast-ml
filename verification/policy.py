@@ -11,7 +11,6 @@ class Policy:
     """Validated policy inputs shared by the deterministic checks."""
 
     max_loop_depth: int
-    forbidden_names: frozenset[str]
     ignored_directories: frozenset[str]
     allowed_suffixes: frozenset[str]
     allowed_names: frozenset[str]
@@ -22,8 +21,8 @@ class Policy:
     forbidden_effect_calls: frozenset[str]
     locations: dict[str, list[str]]
     max_skill_words: int
-    max_role_words: int
-    role_fields: list[str]
+    max_skill_lines: int
+    max_agent_words: int
 
 
 def load_policy(path: Path) -> Policy:
@@ -35,7 +34,6 @@ def load_policy(path: Path) -> Policy:
     architecture = document["architecture"]
     return Policy(
         max_loop_depth=int(python["max_loop_depth"]),
-        forbidden_names=frozenset(python["forbidden_names"]),
         ignored_directories=frozenset(files["ignored_directories"]),
         allowed_suffixes=frozenset(files["allowed_suffixes"]),
         allowed_names=frozenset(files["allowed_names"]),
@@ -46,6 +44,6 @@ def load_policy(path: Path) -> Policy:
         forbidden_effect_calls=frozenset(architecture["effects"]["forbidden_calls"]),
         locations=cast("dict[str, list[str]]", files["locations"]),
         max_skill_words=int(document["guidance"]["max_skill_words"]),
-        max_role_words=int(document["guidance"]["max_role_words"]),
-        role_fields=list(document["guidance"]["role_fields"]),
+        max_skill_lines=int(document["guidance"]["max_skill_lines"]),
+        max_agent_words=int(document["guidance"]["max_agent_words"]),
     )
